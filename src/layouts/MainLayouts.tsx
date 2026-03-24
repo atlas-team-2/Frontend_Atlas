@@ -1,18 +1,15 @@
-import { Outlet } from 'react-dom';
-import Header from '../Components/organisms/Header';
-import Footer from '../Components/organisms/Footer';
+import { Outlet } from 'react-router-dom';
 
-const MainLayout = () => {
+function MainLayout() {
   return (
-    <div className="app-cont">
-      <Header />
-      <main className="main-container">
-        {/*main content*/}
+    <>
+      <header>Header</header>
+      <main>
         <Outlet />
       </main>
-      <Footer />
-    </div>
+      <footer>Footer</footer>
+    </>
   );
-};
+}
 
 export default MainLayout;
