@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 
 function PeopleProfilePage() {
-  const {peopleId} = useParams();
+  const { peopleId } = useParams();
   return <div>Народ: {peopleId}</div>;
 }
 

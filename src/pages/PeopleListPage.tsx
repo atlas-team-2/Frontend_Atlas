@@ -1,5 +1,5 @@
 function PeopleListPage() {
-  return <div>people list</div>
+  return <div>people list</div>;
 }
 
-export default PeopleListPage
+export default PeopleListPage;

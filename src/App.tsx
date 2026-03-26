@@ -1,6 +1,7 @@
 import React from 'react';
-import logo from '../src/img/лого.jpg';
+import logo from '@/img/лого.jpg';
 import './App.css';
+import AppRouter from '@/router/AppRouter';
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <main>
+        <AppRouter />
+      </main>
     </div>
   );
 }
