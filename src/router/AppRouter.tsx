@@ -18,7 +18,7 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<MapPage />} />
+          <Route path="/" element={<LoginPage />} />
           <Route path="/peoples" element={<PeopleListPage />} />
           <Route path="/peoples/:id" element={<PeopleProfilePage />} />
         </Route>

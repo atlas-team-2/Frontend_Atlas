@@ -10,6 +10,8 @@
     "react-scripts": "5.0.1"
   },
   "scripts": {
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json,css,scss,md}\"",
+    "prestart": "npm run format",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
