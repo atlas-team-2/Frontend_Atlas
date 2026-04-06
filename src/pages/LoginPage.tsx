@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import AuthLeftPanel from '@/components/organisms/AuthLeftPanel/AuthLeftPanel';
 import './AuthPage.css';
 
-// Вынесено за пределы компонента
 const features = [
   { icon: '🗺️', text: 'Интерактивная карта народов' },
   { icon: '📍', text: 'Карта расселения по Татарстану' },

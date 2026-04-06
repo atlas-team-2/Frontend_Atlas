@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import RussiaMap from '@/components/organisms/RussiaMap/RussiaMap';
-import '@/pages/AuthPage.css'; // Исправлен путь!
+import '@/pages/AuthPage.css';
 
 interface FeatureItem {
   icon: string;

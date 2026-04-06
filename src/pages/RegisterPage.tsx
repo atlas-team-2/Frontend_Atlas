@@ -18,7 +18,6 @@ interface PasswordStrengthInfo {
   color: string;
 }
 
-// Вынесено за пределы компонента
 const features = [
   { icon: '🗺️', text: 'Интерактивная карта народов' },
   { icon: '📍', text: 'Карта расселения по Татарстану' },
