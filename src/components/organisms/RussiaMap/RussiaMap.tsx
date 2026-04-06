@@ -1,4 +1,4 @@
-import React, { KeyboardEventHandler, MouseEvent, useState } from 'react';
+import { KeyboardEventHandler, useCallback, useRef, useState } from 'react';
 import './RussiaMap.css';
 
 type RussiaMapProps = {
@@ -6,28 +6,34 @@ type RussiaMapProps = {
   isActive?: boolean;
 };
 
+type Phase = 'idle' | 'zooming' | 'detail';
+
 const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
   const [hovered, setHovered] = useState(false);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [phase, setPhase] = useState<Phase>('idle');
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const tatarstanCenter = { x: 192, y: 500 };
+  const zoomed = phase === 'zooming' || phase === 'detail';
 
-  const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - rect.left) / rect.width;
-    const py = (e.clientY - rect.top) / rect.height;
+  const clearTimer = useCallback(() => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = undefined;
+    }
+  }, []);
 
-    const rotateY = (px - 0.5) * 4;
-    const rotateX = (0.5 - py) * 4;
-
-    setTilt({ x: rotateX, y: rotateY });
-  };
-
-  const resetTilt = () => {
-    setTilt({ x: 0, y: 0 });
+  const handleMouseLeave = () => {
+    clearTimer();
+    setHovered(false);
+    setPhase('idle');
   };
 
   const handleClick = () => {
+    if (phase !== 'idle') return;
+    setPhase('zooming');
+    clearTimer();
+    timerRef.current = setTimeout(() => setPhase('detail'), 800);
     if (onTatarstanClick) {
       onTatarstanClick();
     }
@@ -44,17 +50,19 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
     <div className="russia-map-scene">
       <div
         className={`russia-map-card ${isActive ? 'active' : ''}`}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={resetTilt}
-        style={{
-          transform: `perspective(1400px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-        }}
+        onMouseLeave={handleMouseLeave}
       >
         <div className="russia-map-glow" />
 
-        <div className="russia-map-frame">
+        <div
+          className="russia-map-frame"
+          style={{
+            transform: zoomed ? 'scale(4)' : 'scale(1)',
+            opacity: zoomed ? 0 : 1,
+          }}
+        >
           <img
-            src="/russia-map-photo.jpg"
+            src="/russia-map-photo.png"
             alt="Карта России с выделенным Татарстаном"
             className="russia-map-image"
             draggable={false}
@@ -108,7 +116,7 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
                 className="tatarstan-center-dot"
               />
 
-              {(hovered || isActive) && (
+              {hovered && phase === 'idle' && (
                 <g className="tatarstan-tooltip">
                   <rect
                     x={tatarstanCenter.x + 18}
@@ -124,6 +132,20 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
               )}
             </g>
           </svg>
+        </div>
+
+        <div
+          className="tatarstan-detail-wrap"
+          style={{
+            opacity: phase === 'detail' ? 1 : 0,
+          }}
+        >
+          <img
+            src="/tatarstan-map.png"
+            alt="Карта Татарстана"
+            className="tatarstan-detail-image"
+            draggable={false}
+          />
         </div>
       </div>
     </div>
