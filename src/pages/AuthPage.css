@@ -1,7 +1,67 @@
+/* ==================== CSS ТОКЕНЫ ==================== */
+
+:root {
+  /* === Основные цвета фона === */
+  --auth-bg-start: #091426;
+  --auth-bg-mid: #152a66;
+  --auth-bg-end: #0b1b31;
+
+  /* === Акцентные цвета === */
+  --auth-accent-cyan: #00bcd4;
+  --auth-accent-green: #4caf50;
+  --auth-accent-teal: #63e6be;
+  --auth-accent-blue: #4f86ff;
+  --auth-accent-red: #ff4d4d;
+
+  /* === Брендовые цвета === */
+  --auth-brand-green: #22c55e;
+  --auth-brand-green-dark: #18c37e;
+  --auth-brand-button-start: #12b76a;
+  --auth-brand-button-end: #0f9f5c;
+  --auth-brand-link: #7ee7ff;
+  --auth-brand-link-hover: #b6f3ff;
+
+  /* === Текстовые цвета === */
+  --auth-text-primary: #ffffff;
+  --auth-text-secondary: rgba(255, 255, 255, 0.82);
+  --auth-text-muted: rgba(255, 255, 255, 0.68);
+  --auth-text-subtle: rgba(255, 255, 255, 0.45);
+  --auth-text-placeholder: rgba(255, 255, 255, 0.38);
+
+  /* === Цвета границ === */
+  --auth-border-light: rgba(255, 255, 255, 0.07);
+  --auth-border-default: rgba(255, 255, 255, 0.1);
+  --auth-border-input: rgba(255, 255, 255, 0.13);
+  --auth-border-focus: rgba(99, 230, 190, 0.5);
+  --auth-border-hover: rgba(99, 230, 190, 0.2);
+
+  /* === Фоновые цвета === */
+  --auth-bg-card: rgba(255, 255, 255, 0.045);
+  --auth-bg-input: rgba(255, 255, 255, 0.055);
+  --auth-bg-input-focus: rgba(255, 255, 255, 0.07);
+  --auth-bg-feature: rgba(255, 255, 255, 0.05);
+  --auth-bg-feature-hover: rgba(255, 255, 255, 0.08);
+  --auth-bg-divider: rgba(255, 255, 255, 0.12);
+
+  /* === Тени === */
+  --auth-shadow-card: 0 25px 70px rgba(0, 0, 0, 0.26);
+  --auth-shadow-card-glow: 0 0 30px rgba(0, 188, 212, 0.05);
+  --auth-shadow-button: 0 14px 28px rgba(18, 183, 106, 0.24);
+  --auth-shadow-button-hover: 0 18px 34px rgba(18, 183, 106, 0.3);
+  --auth-shadow-focus: 0 0 0 4px rgba(99, 230, 190, 0.09);
+}
+
+/* ==================== ОСНОВНЫЕ СТИЛИ ==================== */
+
 .auth-page {
   min-height: 100vh;
   display: flex;
-  background: linear-gradient(135deg, #091426 0%, #152a66 45%, #0b1b31 100%);
+  background: linear-gradient(
+    135deg,
+    var(--auth-bg-start) 0%,
+    var(--auth-bg-mid) 45%,
+    var(--auth-bg-end) 100%
+  );
   position: relative;
   overflow: hidden;
 }
@@ -57,12 +117,12 @@
   display: inline-block;
   background: linear-gradient(
     90deg,
-    #ffffff 0%,
-    #ffffff 18%,
-    #4f86ff 45%,
-    #4f86ff 60%,
-    #ff4d4d 82%,
-    #ffffff 100%
+    var(--auth-text-primary) 0%,
+    var(--auth-text-primary) 18%,
+    var(--auth-accent-blue) 45%,
+    var(--auth-accent-blue) 60%,
+    var(--auth-accent-red) 82%,
+    var(--auth-text-primary) 100%
   );
   background-size: 300% 300%;
   background-position: 0% 50%;
@@ -74,7 +134,7 @@
 }
 
 .title-green {
-  color: #22c55e;
+  color: var(--auth-brand-green);
 }
 
 .tagline {
@@ -99,8 +159,8 @@
   gap: 0.9rem;
   padding: 0.95rem 1.1rem;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--auth-bg-feature);
+  border: 1px solid var(--auth-border-light);
   color: rgba(255, 255, 255, 0.9);
   text-align: left;
   backdrop-filter: blur(10px);
@@ -108,8 +168,8 @@
 }
 
 .feature-item:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(99, 230, 190, 0.2);
+  background: var(--auth-bg-feature-hover);
+  border-color: var(--auth-border-hover);
 }
 
 .feature-icon {
@@ -134,13 +194,11 @@
   width: 100%;
   max-width: 430px;
   padding: 2.5rem;
-  background: rgba(255, 255, 255, 0.045);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--auth-bg-card);
+  border: 1px solid var(--auth-border-default);
   border-radius: 24px;
   backdrop-filter: blur(18px);
-  box-shadow:
-    0 25px 70px rgba(0, 0, 0, 0.26),
-    0 0 30px rgba(0, 188, 212, 0.05);
+  box-shadow: var(--auth-shadow-card), var(--auth-shadow-card-glow);
 }
 
 .form-header {
@@ -152,12 +210,12 @@
   margin: 0 0 0.45rem;
   font-size: 2rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--auth-text-primary);
 }
 
 .form-subtitle {
   margin: 0;
-  color: rgba(255, 255, 255, 0.68);
+  color: var(--auth-text-muted);
   font-size: 0.98rem;
 }
 
@@ -187,7 +245,7 @@
 }
 
 .input-label {
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--auth-text-secondary);
   font-size: 0.92rem;
   font-weight: 500;
 }
@@ -211,22 +269,22 @@
   box-sizing: border-box;
   padding: 0.95rem 1rem 0.95rem 2.9rem;
   border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  background: rgba(255, 255, 255, 0.055);
-  color: #ffffff;
+  border: 1px solid var(--auth-border-input);
+  background: var(--auth-bg-input);
+  color: var(--auth-text-primary);
   font-size: 1rem;
   outline: none;
   transition: all 0.25s ease;
 }
 
 .auth-input::placeholder {
-  color: rgba(255, 255, 255, 0.38);
+  color: var(--auth-text-placeholder);
 }
 
 .auth-input:focus {
-  border-color: rgba(99, 230, 190, 0.5);
-  box-shadow: 0 0 0 4px rgba(99, 230, 190, 0.09);
-  background: rgba(255, 255, 255, 0.07);
+  border-color: var(--auth-border-focus);
+  box-shadow: var(--auth-shadow-focus);
+  background: var(--auth-bg-input-focus);
 }
 
 /* Для полей без иконки (Имя, Фамилия) */
@@ -252,7 +310,7 @@
 }
 
 .checkbox-label input {
-  accent-color: #18c37e;
+  accent-color: var(--auth-brand-green-dark);
 }
 
 .terms {
@@ -263,13 +321,13 @@
   padding: 0;
   border: none;
   background: transparent;
-  color: #7ee7ff;
+  color: var(--auth-brand-link);
   font-size: 0.94rem;
   cursor: pointer;
 }
 
 .text-link-button:hover {
-  color: #b6f3ff;
+  color: var(--auth-brand-link-hover);
 }
 
 .submit-button {
@@ -277,8 +335,12 @@
   min-height: 52px;
   border: none;
   border-radius: 14px;
-  background: linear-gradient(135deg, #12b76a 0%, #0f9f5c 100%);
-  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    var(--auth-brand-button-start) 0%,
+    var(--auth-brand-button-end) 100%
+  );
+  color: var(--auth-text-primary);
   font-weight: 700;
   font-size: 1rem;
   cursor: pointer;
@@ -287,12 +349,12 @@
   align-items: center;
   gap: 0.55rem;
   transition: all 0.25s ease;
-  box-shadow: 0 14px 28px rgba(18, 183, 106, 0.24);
+  box-shadow: var(--auth-shadow-button);
 }
 
 .submit-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 18px 34px rgba(18, 183, 106, 0.3);
+  box-shadow: var(--auth-shadow-button-hover);
 }
 
 .submit-button:disabled {
@@ -309,7 +371,7 @@
   align-items: center;
   gap: 1rem;
   margin: 1.6rem 0 1rem;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--auth-text-subtle);
   font-size: 0.95rem;
 }
 
@@ -318,7 +380,7 @@
   content: '';
   flex: 1;
   height: 1px;
-  background: rgba(255, 255, 255, 0.12);
+  background: var(--auth-bg-divider);
 }
 
 .register-text {
@@ -328,49 +390,14 @@
 }
 
 .register-link {
-  color: #7ee7ff;
+  color: var(--auth-brand-link);
   text-decoration: none;
   font-weight: 600;
 }
 
 .register-link:hover {
-  color: #b6f3ff;
+  color: var(--auth-brand-link-hover);
 }
-
-.password-strength {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.15rem;
-}
-
-.strength-bar {
-  flex: 1;
-  height: 8px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
-  overflow: hidden;
-}
-
-.strength-fill {
-  height: 100%;
-  border-radius: 999px;
-  transition: width 0.25s ease;
-}
-
-.strength-fill.weak {
-  background: #f44336;
-}
-
-.strength-fill.medium {
-  background: #ff9800;
-}
-
-.strength-fill.strong {
-  background: #4caf50;
-}
-
-/* ==================== АДАПТИВНОСТЬ ==================== */
 
 /* ==================== АДАПТИВНОСТЬ ==================== */
 
@@ -619,14 +646,6 @@
 
   .register-text {
     font-size: 0.8rem;
-  }
-
-  .password-strength {
-    gap: 0.45rem;
-  }
-
-  .strength-bar {
-    height: 6px;
   }
 }
 
