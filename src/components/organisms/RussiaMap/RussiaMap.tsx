@@ -61,6 +61,9 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
             opacity: zoomed ? 0 : 1,
           }}
         >
+          <div className="russia-map-decor russia-map-decor--blue" />
+          <div className="russia-map-decor russia-map-decor--gold" />
+          <div className="russia-map-decor russia-map-decor--green" />
           <img
             src="/russia-map-photo.png"
             alt="Карта России с выделенным Татарстаном"
@@ -76,8 +79,8 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
           >
             <defs>
               <radialGradient id="pulseGradient" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#1bc75e" stopOpacity="0.50" />
-                <stop offset="100%" stopColor="#1bc75e" stopOpacity="0" />
+                <stop offset="0%" stopColor="#2E8B57" stopOpacity="0.42" />
+                <stop offset="100%" stopColor="#2E8B57" stopOpacity="0" />
               </radialGradient>
             </defs>
 

@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AuthLeftPanel from '@/components/organisms/AuthLeftPanel/AuthLeftPanel';
 import './AuthPage.css';
+import './PeopleListPage';
 
 const features = [
-  { icon: '🗺️', text: 'Интерактивная карта народов' },
-  { icon: '📍', text: 'Карта расселения по Татарстану' },
-  { icon: '👘', text: 'Национальные костюмы' },
+  { icon: '🌏', text: 'Интерактивная карта народов' },
+  { icon: '🗺️', text: 'Карта расселения по Татарстану' },
+  { icon: '🎭', text: 'Национальные костюмы' },
   { icon: '🎮', text: 'Мини-игры: Угадай блюдо, Угадай праздник' },
 ];
 
@@ -40,7 +41,11 @@ function LoginPage() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <div className="form-card">
+        <div className="form-card form-card--ornament">
+          <span className="ornament ornament--tl" />
+          <span className="ornament ornament--tr" />
+          <span className="ornament ornament--bl" />
+          <span className="ornament ornament--br" />
           <div className="form-header">
             <motion.h2
               className="form-title"
@@ -50,7 +55,6 @@ function LoginPage() {
             >
               Добро пожаловать!
             </motion.h2>
-
             <motion.p
               className="form-subtitle"
               initial={{ opacity: 0 }}
@@ -60,7 +64,6 @@ function LoginPage() {
               Войдите в свой аккаунт
             </motion.p>
           </div>
-
           <form onSubmit={handleSubmit} className="auth-form">
             <motion.div
               className="input-group"
@@ -85,7 +88,6 @@ function LoginPage() {
                 />
               </div>
             </motion.div>
-
             <motion.div
               className="input-group"
               initial={{ opacity: 0, y: 10 }}
@@ -109,7 +111,6 @@ function LoginPage() {
                 />
               </div>
             </motion.div>
-
             <motion.div
               className="form-options"
               initial={{ opacity: 0 }}
@@ -125,12 +126,10 @@ function LoginPage() {
                 />
                 <span>Запомнить меня</span>
               </label>
-
               <button type="button" className="text-link-button">
                 Забыли пароль?
               </button>
             </motion.div>
-
             <motion.button
               type="submit"
               className="submit-button"
@@ -140,14 +139,14 @@ function LoginPage() {
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
             >
-              Войти
+              <Link to="/PeopleListPage" className="login-text">
+                Войти
+              </Link>
             </motion.button>
           </form>
-
           <div className="divider">
             <span>или</span>
           </div>
-
           <p className="register-text">
             Нет аккаунта?{' '}
             <Link to="/auth/register" className="register-link">

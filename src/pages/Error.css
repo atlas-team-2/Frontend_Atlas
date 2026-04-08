@@ -1,0 +1,73 @@
+.notfound-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #92bdb2;
+}
+
+.notfound-card {
+  width: 100%;
+  max-width: 560px;
+  background: #c9a3c9;
+  border: 1px solid rgba(128, 0, 128, 0.5);
+  border-radius: 24px;
+  padding: 40px 32px;
+  text-align: center;
+  opacity: 0.75;
+}
+
+.notfound-logo {
+  background-image: url('../img/earth.jpg');
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 20px;
+}
+
+.notfound-code {
+  font-size: 72px;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.notfound-title {
+  margin: 0 0 12px;
+  font-size: 32px;
+}
+
+.notfound-text {
+  margin: 0 auto 24px;
+  max-width: 380px;
+  color: #666;
+  line-height: 1.5;
+}
+
+.notfound-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.notfound-btn {
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.notfound-btn.primary {
+  background: #111;
+  color: white;
+  border: 1px solid #111;
+}
+
+.notfound-btn.secondary {
+  background: white;
+  color: #111;
+  border: 1px solid #cfcfcf;
+}

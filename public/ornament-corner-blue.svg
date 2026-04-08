@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="400" viewBox="0 0 1200 400">
+  <defs>
+    <pattern id="geom" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
+      <rect width="200" height="200" fill="white"/>
+      <g stroke="#2f6fb6" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="100" cy="100" r="32"/>
+        <path d="M100 28 L100 72 M100 128 L100 172 M28 100 L72 100 M128 100 L172 100"/>
+        <path d="M100 18
+                 C114 48, 152 56, 182 56
+                 C152 56, 128 86, 128 100
+                 C128 86, 152 56, 182 56" opacity="0"/>
+        <path d="M100 26 C112 52, 144 68, 170 74
+                 C144 80, 112 96, 100 122
+                 C88 96, 56 80, 30 74
+                 C56 68, 88 52, 100 26Z" fill="#2f6fb6" opacity="0.08"/>
+        <path d="M100 22
+                 C120 58, 152 70, 178 76
+                 C152 82, 120 94, 100 130
+                 C80 94, 48 82, 22 76
+                 C48 70, 80 58, 100 22Z"/>
+        <path d="M100 42
+                 C112 66, 134 76, 154 82
+                 C134 88, 112 98, 100 122
+                 C88 98, 66 88, 46 82
+                 C66 76, 88 66, 100 42Z"/>
+        <path d="M100 8 L108 24 L126 26 L113 38 L116 56 L100 47 L84 56 L87 38 L74 26 L92 24 Z" fill="#2f6fb6"/>
+        <path d="M192 100 L176 108 L174 126 L162 113 L144 116 L153 100 L144 84 L162 87 L174 74 L176 92 Z" fill="#2f6fb6"/>
+        <path d="M100 192 L92 176 L74 174 L87 162 L84 144 L100 153 L116 144 L113 162 L126 174 L108 176 Z" fill="#2f6fb6"/>
+        <path d="M8 100 L24 92 L26 74 L38 87 L56 84 L47 100 L56 116 L38 113 L26 126 L24 108 Z" fill="#2f6fb6"/>
+        <path d="M40 40 L64 64 M160 40 L136 64 M40 160 L64 136 M160 160 L136 136"/>
+        <circle cx="40" cy="40" r="8" fill="#2f6fb6"/>
+        <circle cx="160" cy="40" r="8" fill="#2f6fb6"/>
+        <circle cx="40" cy="160" r="8" fill="#2f6fb6"/>
+        <circle cx="160" cy="160" r="8" fill="#2f6fb6"/>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="1200" height="400" fill="url(#geom)"/>
+</svg>

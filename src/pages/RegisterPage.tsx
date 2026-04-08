@@ -19,9 +19,9 @@ interface PasswordStrengthInfo {
 }
 
 const features = [
-  { icon: '🗺️', text: 'Интерактивная карта народов' },
-  { icon: '📍', text: 'Карта расселения по Татарстану' },
-  { icon: '👘', text: 'Национальные костюмы' },
+  { icon: '🔵', text: 'Интерактивная карта народов' },
+  { icon: '🔵', text: 'Карта расселения по Татарстану' },
+  { icon: '🔵', text: 'Национальные костюмы' },
 ];
 
 const getPasswordStrength = (password: string): PasswordStrengthInfo | null => {

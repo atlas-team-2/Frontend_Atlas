@@ -3,11 +3,11 @@ import { Outlet } from 'react-router-dom';
 function MainLayout() {
   return (
     <>
-      <header>Header</header>
+      <header></header>
       <main>
         <Outlet />
       </main>
-      <footer>Footer</footer>
+      <footer></footer>
     </>
   );
 }

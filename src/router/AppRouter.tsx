@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import MapPage from '@/pages/MapPage';
 import LoginPage from '@/pages/LoginPage';
 import PeopleListPage from '@/pages/PeopleListPage';
@@ -11,6 +11,7 @@ import PrivateRoute from '@/router/PrivateRoute';
 import MainLayout from '@/layouts/MainLayout';
 import { useAuth } from '@/hooks/useAuth';
 import NotFoundPage from '@/pages/NotFoundPage';
+import RussiaMap from '@/components/organisms/RussiaMap/RussiaMap';
 
 function AppRouter() {
   const { isAuth, role } = useAuth();
@@ -18,7 +19,7 @@ function AppRouter() {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<MapPage />} />
+          <Route path="/" element={<Navigate to="/auth/login" replace />} />
           <Route path="/peoples" element={<PeopleListPage />} />
           <Route path="/peoples/:id" element={<PeopleProfilePage />} />
         </Route>
