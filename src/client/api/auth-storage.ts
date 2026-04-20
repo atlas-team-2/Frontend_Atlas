@@ -15,24 +15,28 @@ export const authStorage = {
     localStorage.setItem(TOKEN_TYPE_KEY, data.token_type);
     localStorage.setItem(SCOPES_KEY, data.scope);
   },
+
   getAccessToken() {
     return localStorage.getItem(ACCESS_TOKEN_KEY);
   },
+
   getRefreshToken() {
     return localStorage.getItem(REFRESH_TOKEN_KEY);
   },
+
   getTokenType() {
-    return localStorage.getItem(TOKEN_TYPE_KEY);
+    return localStorage.getItem(TOKEN_TYPE_KEY) || 'Bearer';
   },
+
   getScope() {
-    const scope = localStorage.getItem(TOKEN_TYPE_KEY);
+    const scope = localStorage.getItem(SCOPES_KEY);
     return scope ? scope.split(' ').filter(Boolean) : [];
   },
-  clear(){
+
+  clear() {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
     localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(TOKEN_TYPE_KEY);
     localStorage.removeItem(SCOPES_KEY);
-  }
-
-}
+  },
+};

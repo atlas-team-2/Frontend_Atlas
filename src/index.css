@@ -1,3 +1,119 @@
+:root {
+  /* Base */
+  --color-white: #ffffff;
+  --color-black: #050505;
+
+  /* Brand */
+  --color-brand-blue: #4056a1;
+  --color-brand-blue-dark: #32458a;
+  --color-brand-red: #f13c20;
+  --color-brand-gold: #d79922;
+  --color-brand-green: #2e8b57;
+  --color-brand-green-dark: #256f46;
+  --color-brand-teal: #91a88a;
+  --color-brand-lavender: #c5cbe3;
+
+  /* Backgrounds */
+  --color-bg-page: #f3ead8;
+  --color-bg-page-mid: #eadfc9;
+  --color-bg-page-end: #e3d6bf;
+  --color-bg-surface: #f2e8d8;
+  --color-bg-surface-soft: #efe4d2;
+  --color-bg-surface-warm: #e9ddc7;
+  --color-bg-sidebar: #e6d9c3;
+  --color-bg-section: #dccfb8;
+  --color-bg-hover: #ebd9b0;
+  --color-bg-map: #efe2ba;
+
+  /* Text */
+  --color-text-primary: #2f2a28;
+  --color-text-secondary: #5e564d;
+  --color-text-muted: #6b665c;
+  --color-text-subtle: #7b7267;
+  --color-text-dark: #4d473f;
+  --color-text-disabled: #666666;
+
+  /* Decorative */
+  --color-title-green: #88a77e;
+  --color-title-brown: #8f7e65;
+  --color-title-rose: #a8747b;
+  --color-title-rose-dark: #a87777;
+
+  /* Borders */
+  --color-border-base: #cdbfa8;
+  --color-border-light-rgb: 94, 86, 77;
+  --color-border-light: rgba(var(--color-border-light-rgb), 0.08);
+  --color-border-default: rgba(var(--color-border-light-rgb), 0.12);
+  --color-border-strong: rgba(var(--color-border-light-rgb), 0.16);
+  --color-border-stronger: rgba(var(--color-border-light-rgb), 0.18);
+  --color-border-purple: rgba(128, 0, 128, 0.5);
+
+  /* Overlays / alpha */
+  --color-overlay-white-12: rgba(255, 255, 255, 0.12);
+  --color-overlay-white-45: rgba(255, 255, 255, 0.45);
+  --color-overlay-dark-18: rgba(5, 15, 35, 0.18);
+  --color-overlay-dark-94: rgba(15, 23, 42, 0.94);
+
+  --color-shadow-blue-08: rgba(64, 86, 161, 0.08);
+  --color-shadow-blue-20: rgba(64, 86, 161, 0.2);
+  --color-shadow-blue-22: rgba(64, 86, 161, 0.22);
+  --color-shadow-blue-26: rgba(64, 86, 161, 0.26);
+  --color-shadow-blue-35: rgba(64, 86, 161, 0.35);
+
+  --color-shadow-brown-06: rgba(80, 60, 30, 0.06);
+  --color-shadow-brown-08: rgba(80, 60, 30, 0.08);
+  --color-shadow-brown-12: rgba(80, 60, 30, 0.12);
+
+  --color-accent-gold-14: rgba(215, 153, 34, 0.14);
+  --color-accent-gold-25: rgba(215, 153, 34, 0.25);
+  --color-accent-gold-35: rgba(215, 153, 34, 0.35);
+
+  --color-accent-green-08: rgba(46, 139, 87, 0.08);
+  --color-accent-green-10: rgba(46, 139, 87, 0.1);
+  --color-accent-green-45: rgba(16, 184, 90, 0.45);
+
+  --color-accent-blue-05: rgba(64, 86, 161, 0.05);
+  --color-accent-lavender-22: rgba(197, 203, 227, 0.22);
+
+  --color-text-primary-82: rgba(47, 42, 40, 0.82);
+  --color-text-primary-45: rgba(47, 42, 40, 0.45);
+  --color-text-primary-40: rgba(47, 42, 40, 0.4);
+  --color-text-black-68: rgba(12, 12, 12, 0.68);
+
+  --color-bg-card-auth: rgba(220, 207, 184, 1);
+  --color-bg-feature-auth: rgba(230, 217, 195, 0.78);
+  --color-bg-feature-auth-hover: rgba(235, 217, 176, 0.9);
+  --color-bg-input-auth: rgba(239, 228, 210, 0.95);
+  --color-bg-input-auth-focus: rgba(245, 238, 225, 0.98);
+
+  /* Feedback */
+  --color-error: #c9351b;
+  --color-success: #256f46;
+
+  /* Legacy page colors */
+  --color-app-header: #282c34;
+  --color-app-link: #61dafb;
+  --color-error-page-bg: #92bdb2;
+  --color-error-card-bg: #c9a3c9;
+  --color-border-neutral: #cfcfcf;
+  --color-button-dark: #111111;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: var(--color-bg-page);
+  color: var(--color-text-primary);
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
 body {
   margin: 0;
   font-family:

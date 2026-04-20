@@ -1,5 +1,8 @@
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
+
 function Header() {
-  return <header>Header</header>;
+  return <div></div>;
 }
 
 export default Header;

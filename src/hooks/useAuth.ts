@@ -1,6 +1,5 @@
-export function useAuth() {
-  const isAuth = false;
-  const role: 'admin' | 'user' | null = null;
+import { useAuthContext } from '@/Provider/AuthProvider';
 
-  return { isAuth, role };
+export function useAuth() {
+  return useAuthContext();
 }

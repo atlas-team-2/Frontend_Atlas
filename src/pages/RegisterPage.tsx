@@ -1,8 +1,9 @@
 import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AuthLeftPanel from '@/components/organisms/AuthLeftPanel/AuthLeftPanel';
 import './AuthPage.css';
+import { useAuth } from '@/hooks/useAuth';
 
 interface RegisterFormState {
   firstName: string;
@@ -45,6 +46,9 @@ const getPasswordStrength = (password: string): PasswordStrengthInfo | null => {
 };
 
 function RegisterPage() {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState<RegisterFormState>({
     firstName: '',
     lastName: '',
@@ -53,6 +57,8 @@ function RegisterPage() {
     confirmPassword: '',
   });
   const [agreedToTerms, setAgreedToTerms] = useState(false);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -67,8 +73,30 @@ function RegisterPage() {
     [formData.password]
   );
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError('');
+
+    if (formData.password !== formData.confirmPassword) {
+      setError('Пароли не совпадают');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await register({
+        email: formData.email,
+        password: formData.password,
+        display_name: `${formData.firstName} ${formData.lastName}`.trim(),
+      });
+
+      navigate('/auth/login');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ошибка регистрации');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -227,6 +255,8 @@ function RegisterPage() {
               </div>
             </motion.div>
 
+            {error && <p className="auth-error">{error}</p>}
+
             <motion.div
               className="form-options"
               initial={{ opacity: 0 }}
@@ -253,9 +283,9 @@ function RegisterPage() {
               transition={{ duration: 0.35, delay: 0.9 }}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
-              disabled={!agreedToTerms}
+              disabled={!agreedToTerms || isSubmitting}
             >
-              Зарегистрироваться
+              {isSubmitting ? 'Регистрация...' : 'Зарегистрироваться'}
             </motion.button>
           </form>
 

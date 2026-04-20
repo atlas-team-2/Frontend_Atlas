@@ -1,24 +1,41 @@
 import { useState, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AuthLeftPanel from '@/components/organisms/AuthLeftPanel/AuthLeftPanel';
 import './AuthPage.css';
+import { useAuth } from '@/hooks/useAuth';
 
 const features = [
-  { icon: '🗺️', text: 'Интерактивная карта народов' },
-  { icon: '📍', text: 'Карта расселения по Татарстану' },
-  { icon: '👘', text: 'Национальные костюмы' },
+  { icon: '🌏', text: 'Интерактивная карта народов' },
+  { icon: '🗺️', text: 'Карта расселения по Татарстану' },
+  { icon: '🎭', text: 'Национальные костюмы' },
   { icon: '🎮', text: 'Мини-игры: Угадай блюдо, Угадай праздник' },
 ];
 
 function LoginPage() {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
   const [showMap, setShowMap] = useState(false);
+  const [error, setError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setError('');
+    setIsSubmitting(true);
+
+    try {
+      await login(email, password);
+      navigate('/');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ошибка входа');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleTatarstanClick = () => {
@@ -40,7 +57,11 @@ function LoginPage() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <div className="form-card">
+        <div className="form-card form-card--ornament">
+          <span className="ornament ornament--tl" />
+          <span className="ornament ornament--tr" />
+          <span className="ornament ornament--bl" />
+          <span className="ornament ornament--br" />
           <div className="form-header">
             <motion.h2
               className="form-title"
@@ -110,6 +131,8 @@ function LoginPage() {
               </div>
             </motion.div>
 
+            {error && <p className="auth-error">{error}</p>}
+
             <motion.div
               className="form-options"
               initial={{ opacity: 0 }}
@@ -139,8 +162,9 @@ function LoginPage() {
               transition={{ duration: 0.35, delay: 0.9 }}
               whileHover={{ scale: 1.01 }}
               whileTap={{ scale: 0.99 }}
+              disabled={isSubmitting}
             >
-              Войти
+              {isSubmitting ? 'Входим...' : 'Войти'}
             </motion.button>
           </form>
 
