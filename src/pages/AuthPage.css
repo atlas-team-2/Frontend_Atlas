@@ -1,54 +1,52 @@
-/* ==================== CSS ТОКЕНЫ ==================== */
-
 :root {
   /* === Основные цвета фона === */
-  --auth-bg-start: #091426;
-  --auth-bg-mid: #152a66;
-  --auth-bg-end: #0b1b31;
+  --auth-bg-start: #f3ead8;
+  --auth-bg-mid: #eadfc9;
+  --auth-bg-end: #e3d6bf;
 
   /* === Акцентные цвета === */
-  --auth-accent-cyan: #00bcd4;
-  --auth-accent-green: #4caf50;
-  --auth-accent-teal: #63e6be;
-  --auth-accent-blue: #4f86ff;
-  --auth-accent-red: #ff4d4d;
+  --auth-accent-cyan: #c5cbe3;
+  --auth-accent-green: #2e8b57;
+  --auth-accent-teal: #91a88a;
+  --auth-accent-blue: #4056a1;
+  --auth-accent-red: #f13c20;
 
   /* === Брендовые цвета === */
-  --auth-brand-green: #22c55e;
-  --auth-brand-green-dark: #18c37e;
-  --auth-brand-button-start: #12b76a;
-  --auth-brand-button-end: #0f9f5c;
-  --auth-brand-link: #7ee7ff;
-  --auth-brand-link-hover: #b6f3ff;
+  --auth-brand-green: #2e8b57;
+  --auth-brand-green-dark: #256f46;
+  --auth-brand-button-start: #4056a1;
+  --auth-brand-button-end: #32458a;
+  --auth-brand-link: #4056a1;
+  --auth-brand-link-hover: #f13c20;
 
   /* === Текстовые цвета === */
-  --auth-text-primary: #ffffff;
-  --auth-text-secondary: rgba(255, 255, 255, 0.82);
-  --auth-text-muted: rgba(255, 255, 255, 0.68);
-  --auth-text-subtle: rgba(255, 255, 255, 0.45);
-  --auth-text-placeholder: rgba(255, 255, 255, 0.38);
+  --auth-text-primary: #050505;
+  --auth-text-secondary: rgba(47, 42, 40, 0.82);
+  --auth-text-muted: rgba(12, 12, 12, 0.68);
+  --auth-text-subtle: rgba(47, 42, 40, 0.45);
+  --auth-text-placeholder: rgba(47, 42, 40, 0.4);
 
   /* === Цвета границ === */
-  --auth-border-light: rgba(255, 255, 255, 0.07);
-  --auth-border-default: rgba(255, 255, 255, 0.1);
-  --auth-border-input: rgba(255, 255, 255, 0.13);
-  --auth-border-focus: rgba(99, 230, 190, 0.5);
-  --auth-border-hover: rgba(99, 230, 190, 0.2);
+  --auth-border-light: rgba(94, 86, 77, 0.12);
+  --auth-border-default: rgba(94, 86, 77, 0.16);
+  --auth-border-input: rgba(94, 86, 77, 0.18);
+  --auth-border-focus: rgba(64, 86, 161, 0.35);
+  --auth-border-hover: rgba(215, 153, 34, 0.35);
 
   /* === Фоновые цвета === */
-  --auth-bg-card: rgba(255, 255, 255, 0.045);
-  --auth-bg-input: rgba(255, 255, 255, 0.055);
-  --auth-bg-input-focus: rgba(255, 255, 255, 0.07);
-  --auth-bg-feature: rgba(255, 255, 255, 0.05);
-  --auth-bg-feature-hover: rgba(255, 255, 255, 0.08);
-  --auth-bg-divider: rgba(255, 255, 255, 0.12);
+  --auth-bg-card: rgba(220, 207, 184, 1);
+  --auth-bg-input: rgba(239, 228, 210, 0.95);
+  --auth-bg-input-focus: rgba(245, 238, 225, 0.98);
+  --auth-bg-feature: rgba(230, 217, 195, 0.78);
+  --auth-bg-feature-hover: rgba(235, 217, 176, 0.9);
+  --auth-bg-divider: rgba(94, 86, 77, 0.18);
 
   /* === Тени === */
-  --auth-shadow-card: 0 25px 70px rgba(0, 0, 0, 0.26);
-  --auth-shadow-card-glow: 0 0 30px rgba(0, 188, 212, 0.05);
-  --auth-shadow-button: 0 14px 28px rgba(18, 183, 106, 0.24);
-  --auth-shadow-button-hover: 0 18px 34px rgba(18, 183, 106, 0.3);
-  --auth-shadow-focus: 0 0 0 4px rgba(99, 230, 190, 0.09);
+  --auth-shadow-card: 0 20px 50px rgba(80, 60, 30, 0.12);
+  --auth-shadow-card-glow: 0 0 24px rgba(64, 86, 161, 0.05);
+  --auth-shadow-button: 0 12px 24px rgba(64, 86, 161, 0.22);
+  --auth-shadow-button-hover: 0 16px 30px rgba(64, 86, 161, 0.26);
+  --auth-shadow-focus: 0 0 0 4px rgba(64, 86, 161, 0.1);
 }
 
 /* ==================== ОСНОВНЫЕ СТИЛИ ==================== */
@@ -71,9 +69,9 @@
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 18% 22%, rgba(0, 188, 212, 0.12), transparent 28%),
-    radial-gradient(circle at 80% 30%, rgba(76, 175, 80, 0.09), transparent 24%),
-    radial-gradient(circle at 50% 100%, rgba(255, 255, 255, 0.04), transparent 30%);
+    radial-gradient(circle at 18% 22%, rgba(215, 153, 34, 0.14), transparent 28%),
+    radial-gradient(circle at 80% 30%, rgba(46, 139, 87, 0.1), transparent 24%),
+    radial-gradient(circle at 50% 100%, rgba(64, 86, 161, 0.05), transparent 30%);
   pointer-events: none;
 }
 
@@ -98,11 +96,23 @@
 }
 
 .map-wrapper {
-  width: 100%;
+  position: relative;
   max-width: 620px;
   margin: 0 auto 1.2rem;
-  padding: 0;
+  padding: 24px;
+  border: none;
   overflow: hidden;
+}
+.map-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 72%, rgba(215, 153, 34, 0.14), transparent 24%),
+    radial-gradient(circle at 80% 25%, rgba(197, 203, 227, 0.22), transparent 28%),
+    radial-gradient(circle at 50% 90%, rgba(46, 139, 87, 0.08), transparent 18%);
+  pointer-events: none;
+  opacity: 0.2;
 }
 
 .year-title {
@@ -115,32 +125,21 @@
 
 .title-gradient {
   display: inline-block;
-  background: linear-gradient(
-    90deg,
-    var(--auth-text-primary) 0%,
-    var(--auth-text-primary) 18%,
-    var(--auth-accent-blue) 45%,
-    var(--auth-accent-blue) 60%,
-    var(--auth-accent-red) 82%,
-    var(--auth-text-primary) 100%
-  );
-  background-size: 300% 300%;
-  background-position: 0% 50%;
+  background: linear-gradient(90deg, #88a77e 20%, #a8747b 48%, #a87777 78%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-  will-change: background-position;
 }
 
 .title-green {
-  color: var(--auth-brand-green);
+  color: #8f7e65;
 }
 
 .tagline {
   margin: 0 auto 1.8rem;
   max-width: 640px;
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--auth-text-muted);
   font-size: 1.05rem;
   line-height: 1.65;
 }
@@ -161,9 +160,9 @@
   border-radius: 16px;
   background: var(--auth-bg-feature);
   border: 1px solid var(--auth-border-light);
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--auth-text-primary);
   text-align: left;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(6px);
   transition: all 0.25s ease;
 }
 
@@ -172,9 +171,16 @@
   border-color: var(--auth-border-hover);
 }
 
-.feature-icon {
-  font-size: 1.25rem;
-  flex-shrink: 0;
+.feature-item:nth-child(1) .feature-icon {
+  color: #4056a1;
+}
+
+.feature-item:nth-child(2) .feature-icon {
+  color: #d79922;
+}
+
+.feature-item:nth-child(3) .feature-icon {
+  color: #2e8b57;
 }
 
 .feature-text {
@@ -197,7 +203,7 @@
   background: var(--auth-bg-card);
   border: 1px solid var(--auth-border-default);
   border-radius: 24px;
-  backdrop-filter: blur(18px);
+  backdrop-filter: blur(10px);
   box-shadow: var(--auth-shadow-card), var(--auth-shadow-card-glow);
 }
 
@@ -262,6 +268,13 @@
   transform: translateY(-50%);
   font-size: 1rem;
   pointer-events: none;
+  color: #d79922;
+}
+
+.feature-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  color: #4056a1;
 }
 
 .auth-input {
@@ -304,7 +317,7 @@
   display: flex;
   align-items: center;
   gap: 0.55rem;
-  color: rgba(255, 255, 255, 0.76);
+  color: var(--auth-text-muted);
   font-size: 0.94rem;
   cursor: pointer;
 }
@@ -349,6 +362,7 @@
   align-items: center;
   gap: 0.55rem;
   transition: all 0.25s ease;
+
   box-shadow: var(--auth-shadow-button);
 }
 
@@ -364,6 +378,10 @@
 
 .submit-button:disabled:hover {
   transform: none;
+}
+.login-text {
+  color: var(--auth-text-muted);
+  text-decoration: none;
 }
 
 .divider {
@@ -385,7 +403,7 @@
 
 .register-text {
   text-align: center;
-  color: rgba(255, 255, 255, 0.72);
+  color: var(--auth-text-muted);
   font-size: 0.96rem;
 }
 
@@ -397,6 +415,40 @@
 
 .register-link:hover {
   color: var(--auth-brand-link-hover);
+}
+.form-card--ornament {
+  position: relative;
+  overflow: hidden;
+  opacity: 80%;
+  width: 100%;
+  background-image: url('../../public/ornament-corner-blue.svg');
+}
+
+.ornament {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+  opacity: 0.9;
+  z-index: 1;
+}
+
+.form-card--ornament::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+  pointer-events: none;
+  z-index: -1;
+  opacity: 0.95;
+  background-color: var(--auth-bg-card);
+}
+
+.form-card--ornament > *:not(.ornament) {
+  position: relative;
+  z-index: 1;
 }
 
 /* ==================== АДАПТИВНОСТЬ ==================== */
