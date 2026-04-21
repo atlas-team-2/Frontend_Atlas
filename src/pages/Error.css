@@ -1,14 +1,3 @@
-/*:root{*/
-/*    --color-app-header: #282c34;*/
-/*    --color-app-link: #61dafb;*/
-/*    --color-error-page-bg: #92bdb2;*/
-/*    --color-error-card-bg: #c9a3c9;*/
-/*    --color-border-neutral: #cfcfcf;*/
-/*    --color-button-dark: #111111;*/
-/*    --color-border-purple: rgba(128, 0, 128, 0.5);*/
-/*    --color-text-disabled: #666666;*/
-/*}*/
-
 .notfound-page {
   min-height: 100vh;
   display: flex;

@@ -171,11 +171,6 @@
   border-color: var(--auth-border-hover);
 }
 
-/*.feature-icon {*/
-/*    font-size: 1.25rem;*/
-/*    flex-shrink: 0;*/
-/*    color: #4056a1;*/
-/*}*/
 .feature-item:nth-child(1) .feature-icon {
   color: #4056a1;
 }

@@ -1,3 +1,5 @@
+import { safeFetch } from '@/client/api/http';
+
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 export interface Nation {
@@ -17,6 +19,14 @@ export interface NationInfo {
   religion: string;
   facts?: string | null;
   status?: 'draft' | 'published' | 'rejected';
+}
+
+export interface NationDetails extends Nation {
+  info?: NationInfo;
+  settlement_zones?: SettlementZone[];
+  costumes?: Costume[];
+  games?: Game[];
+  comments_count?: number;
 }
 
 export interface SettlementZone {
@@ -75,15 +85,6 @@ async function parseError(response: Response): Promise<string> {
     return 'Произошла ошибка';
   }
 }
-
-async function safeFetch(url: string, init?: RequestInit) {
-  try {
-    return await fetch(url, init);
-  } catch {
-    throw new Error('Не удалось подключиться к серверу. Попробуйте позже.');
-  }
-}
-
 export async function getNations(search = ''): Promise<Nation[]> {
   const query = new URLSearchParams({
     page: '1',

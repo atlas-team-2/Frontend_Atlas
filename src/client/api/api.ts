@@ -1,4 +1,5 @@
 import { authStorage } from '@/client/api/auth-storage';
+import { safeFetch } from '@/client/api/http';
 
 export interface User {
   id: string;
@@ -10,25 +11,12 @@ export interface User {
 
 export interface TokenPair {
   access_token: string;
-  refresh_token: string;
   token_type: string;
   expires_in: number;
   scope: string;
 }
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-
-async function safeFetch(input: RequestInfo | URL, init?: RequestInit) {
-  try {
-    return await fetch(input, init);
-  } catch {
-    if (!navigator.onLine) {
-      throw new Error('Нет подключения к интернету.');
-    }
-
-    throw new Error('Не удалось подключиться к серверу. Попробуйте позже.');
-  }
-}
 
 async function parseErrors(response: Response): Promise<string> {
   try {
@@ -68,6 +56,7 @@ export async function loginRequest(payload: {
     headers: {
       'Content-Type': 'application/json',
     },
+    credentials: 'include',
     body: JSON.stringify(payload),
   });
 
@@ -79,13 +68,15 @@ export async function loginRequest(payload: {
 }
 
 export async function getMeRequest(): Promise<User> {
-  const token = authStorage.getAccessToken();
-  const tokenType = authStorage.getTokenType();
+  const authHeader = authStorage.getAuthHeader();
 
   const response = await safeFetch(`${API_URL}/api/v1/auth/me`, {
-    headers: {
-      Authorization: `${tokenType} ${token}`,
-    },
+    headers: authHeader
+      ? {
+          Authorization: authHeader,
+        }
+      : {},
+    credentials: 'include',
   });
 
   if (!response.ok) {
@@ -96,14 +87,16 @@ export async function getMeRequest(): Promise<User> {
 }
 
 export async function logoutRequest(): Promise<void> {
-  const token = authStorage.getAccessToken();
-  const tokenType = authStorage.getTokenType();
+  const authHeader = authStorage.getAuthHeader();
 
   const response = await safeFetch(`${API_URL}/api/v1/auth/logout`, {
     method: 'POST',
-    headers: {
-      Authorization: `${tokenType} ${token}`,
-    },
+    headers: authHeader
+      ? {
+          Authorization: authHeader,
+        }
+      : {},
+    credentials: 'include',
   });
 
   if (!response.ok && response.status !== 204) {

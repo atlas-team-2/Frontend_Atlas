@@ -1,41 +1,50 @@
 const ACCESS_TOKEN_KEY = 'atlas_access_token';
-const REFRESH_TOKEN_KEY = 'atlas_refresh_token';
 const TOKEN_TYPE_KEY = 'atlas_token_type';
 const SCOPES_KEY = 'atlas_scopes';
 
+export interface AuthTokenData {
+  access_token: string;
+  token_type: string;
+  scope: string;
+}
+
 export const authStorage = {
-  setToken(data: {
-    access_token: string;
-    refresh_token: string;
-    token_type: string;
-    scope: string;
-  }) {
+  setToken(data: AuthTokenData): void {
     localStorage.setItem(ACCESS_TOKEN_KEY, data.access_token);
-    localStorage.setItem(REFRESH_TOKEN_KEY, data.refresh_token);
     localStorage.setItem(TOKEN_TYPE_KEY, data.token_type);
     localStorage.setItem(SCOPES_KEY, data.scope);
   },
 
-  getAccessToken() {
+  getAccessToken(): string | null {
     return localStorage.getItem(ACCESS_TOKEN_KEY);
   },
 
-  getRefreshToken() {
-    return localStorage.getItem(REFRESH_TOKEN_KEY);
-  },
-
-  getTokenType() {
+  getTokenType(): string {
     return localStorage.getItem(TOKEN_TYPE_KEY) || 'Bearer';
   },
 
-  getScope() {
+  getAuthHeader(): string | null {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+    const tokenType = localStorage.getItem(TOKEN_TYPE_KEY) || 'Bearer';
+
+    if (!accessToken) {
+      return null;
+    }
+
+    return `${tokenType} ${accessToken}`;
+  },
+
+  getScope(): string[] {
     const scope = localStorage.getItem(SCOPES_KEY);
     return scope ? scope.split(' ').filter(Boolean) : [];
   },
 
-  clear() {
+  hasScope(requiredScope: string): boolean {
+    return this.getScope().includes(requiredScope);
+  },
+
+  clear(): void {
     localStorage.removeItem(ACCESS_TOKEN_KEY);
-    localStorage.removeItem(REFRESH_TOKEN_KEY);
     localStorage.removeItem(TOKEN_TYPE_KEY);
     localStorage.removeItem(SCOPES_KEY);
   },

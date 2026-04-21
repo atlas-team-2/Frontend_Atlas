@@ -1,6 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
-import forbidden from '@/pages/ForbiddenPage';
 
 type ScopeGuardProps = {
   requiredScopes: string[];
