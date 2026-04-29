@@ -276,52 +276,84 @@
   line-height: 1.5;
 }
 
-.costumes-block__grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
-}
-
-.costume-card {
+.costumes-unified-card {
+  background: var(--ts-card-bg);
+  border: 1px solid var(--ts-card-border);
+  border-radius: 12px;
   overflow: hidden;
-  border-radius: 20px;
-  background: var(--color-bg-surface);
-  border: 1px solid var(--color-border-light);
+  box-shadow: var(--ts-shadow-card);
 }
 
-.costume-card__image {
-  min-height: 240px;
+.costumes-unified-card__display {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  background: var(--ts-card-border);
+}
+
+.costume-item {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  background: var(--ts-image-stub);
+}
+
+.costume-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.costume-item__badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--ts-text-main);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.costume-item__placeholder {
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg-surface-warm);
-  color: var(--color-text-secondary);
-  font-weight: 600;
+  color: var(--ts-text-light);
+  font-size: 14px;
 }
 
-.costume-card__real-image {
+.costumes-unified-card__info {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.costume-desc__label {
   display: block;
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-  background: var(--color-bg-surface-warm);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ts-accent);
+  text-transform: uppercase;
+  margin-bottom: 4px;
 }
 
-.costume-card__body {
-  padding: 16px;
-}
-
-.costume-card__title {
-  margin: 0 0 8px;
-  color: var(--color-brand-blue);
-  font-size: 1.05rem;
-}
-
-.costume-card__text {
+.costume-desc__text {
   margin: 0;
-  color: var(--color-text-secondary);
-  font-size: 0.92rem;
+  font-size: 14px;
   line-height: 1.5;
+  color: var(--ts-text-muted);
+}
+
+@media (max-width: 600px) {
+  .costumes-unified-card__display {
+    grid-template-columns: 1fr;
+  }
 }
 
 .games-block__grid {
@@ -566,5 +598,96 @@
 
   .costume-card__real-image {
     height: 220px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .nations-page {
+    padding: 18px;
+  }
+
+  .nations-page__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+
+  .nations-sidebar {
+    position: static;
+    top: auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .nation-profile,
+  .nation-section,
+  .nation-section__content {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .nations-page {
+    padding: 12px;
+    overflow-x: hidden;
+  }
+
+  .nations-page__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .nations-sidebar {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 18px;
+    padding: 14px;
+    box-sizing: border-box;
+  }
+
+  .nations-sidebar__title {
+    font-size: 1.2rem;
+  }
+
+  .nations-sidebar__subtitle {
+    font-size: 0.9rem;
+  }
+
+  .nations-sidebar__search-input {
+    padding: 10px 12px;
+    border-radius: 12px;
+  }
+
+  .nation-profile {
+    min-width: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .nation-section {
+    position: relative;
+    z-index: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+  }
+
+  .nation-section__content,
+  .settlement-map,
+  .settlement-map__card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow: visible;
+    box-sizing: border-box;
+  }
+
+  .nation-section + .nation-section {
+    margin-top: 16px;
   }
 }

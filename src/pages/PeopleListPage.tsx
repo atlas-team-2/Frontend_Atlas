@@ -25,8 +25,6 @@ import NationGamesSection from '@/components/organisms/NationGameSection/NationG
 import CommentsSection from '@/components/organisms/CommentsSection/CommentsSection';
 import NationInfoSection from '@/components/organisms/NationInfoSection/NationInfoSection';
 
-type SelectedNation = Awaited<ReturnType<typeof getNationById>>;
-
 function PeopleListPage() {
   const { isAuth, hasScope } = useAuth();
 
@@ -61,17 +59,14 @@ function PeopleListPage() {
 
   async function loadNations() {
     setIsLoadingNations(true);
-    setPageError('');
-
     try {
       const items = await getNations();
       setNations(items);
-
-      if (items.length > 0) {
+      if (items.length > 0 && !selectedNationId) {
         setSelectedNationId(items[0].id);
       }
     } catch (error) {
-      setPageError(error instanceof Error ? error.message : 'Не удалось загрузить народы');
+      setPageError(error instanceof Error ? error.message : 'Ошибка загрузки');
     } finally {
       setIsLoadingNations(false);
     }
@@ -79,10 +74,6 @@ function PeopleListPage() {
 
   async function loadNationProfile(nationId: string) {
     setIsLoadingProfile(true);
-    setPageError('');
-    setCommentSuccess('');
-    setCommentError('');
-
     try {
       const [nation, info, zones, nationCostumes, nationGames, nationComments] = await Promise.all([
         getNationById(nationId),
@@ -100,7 +91,7 @@ function PeopleListPage() {
       setGames(nationGames);
       setComments(nationComments);
     } catch (error) {
-      setPageError(error instanceof Error ? error.message : 'Не удалось загрузить профиль народа');
+      setPageError('Не удалось загрузить профиль');
     } finally {
       setIsLoadingProfile(false);
     }
@@ -108,62 +99,37 @@ function PeopleListPage() {
 
   async function handleCommentSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-
-    if (!selectedNationId) return;
-
-    setCommentError('');
-    setCommentSuccess('');
-
-    if (!commentText.trim()) {
-      setCommentError('Введите текст комментария');
-      return;
-    }
-
+    if (!selectedNationId || !commentText.trim()) return;
     setIsCommentSubmitting(true);
-
     try {
       const token = authStorage.getAccessToken() || undefined;
-
       await createNationComment(selectedNationId, commentText.trim(), token);
-
       setCommentText('');
-      setCommentSuccess('Комментарий отправлен на модерацию');
-
-      const refreshedComments = await getNationComments(selectedNationId);
-      setComments(refreshedComments);
-    } catch (error) {
-      setCommentError(error instanceof Error ? error.message : 'Не удалось отправить комментарий');
+      setCommentSuccess('Отправлено');
+      const refreshed = await getNationComments(selectedNationId);
+      setComments(refreshed);
     } finally {
       setIsCommentSubmitting(false);
     }
   }
 
-  function normalizeGender(gender: string): 'male' | 'female' | null {
-    const normalized = gender.trim().toLowerCase();
-
-    if (['male', 'man', 'm', 'м', 'муж', 'мужской'].includes(normalized)) {
-      return 'male';
-    }
-
-    if (['female', 'woman', 'f', 'ж', 'жен', 'женский'].includes(normalized)) {
-      return 'female';
-    }
-
+  function normalizeGender(gender: string) {
+    const n = gender.toLowerCase();
+    if (['male', 'м'].includes(n)) return 'male';
+    if (['female', 'ж'].includes(n)) return 'female';
     return null;
   }
 
   const maleCostume = useMemo(
-    () => costumes.find((item) => normalizeGender(item.gender) === 'male'),
+    () => costumes.find((c) => normalizeGender(c.gender) === 'male'),
     [costumes]
   );
-
   const femaleCostume = useMemo(
-    () => costumes.find((item) => normalizeGender(item.gender) === 'female'),
+    () => costumes.find((c) => normalizeGender(c.gender) === 'female'),
     [costumes]
   );
-
   const filteredNations = useMemo(
-    () => nations.filter((nation) => nation.name.toLowerCase().includes(search.toLowerCase())),
+    () => nations.filter((n) => n.name.toLowerCase().includes(search.toLowerCase())),
     [nations, search]
   );
 
@@ -180,37 +146,31 @@ function PeopleListPage() {
         />
 
         <main className="nation-profile">
-          {pageError && <div className="page-error">{pageError}</div>}
+          {isLoadingProfile ? (
+            <div className="page-loading">Загрузка...</div>
+          ) : (
+            selectedNation &&
+            nationInfo && (
+              <>
+                <NationHero nation={selectedNation} nationInfo={nationInfo} />
 
-          {!pageError && isLoadingProfile && (
-            <div className="page-loading">Загрузка профиля народа...</div>
-          )}
+                <NationInfoSection
+                  nationInfo={nationInfo}
+                  settlementZones={settlementZones}
+                  maleCostume={maleCostume}
+                  femaleCostume={femaleCostume}
+                />
 
-          {!pageError && !isLoadingProfile && selectedNation && nationInfo && (
-            <>
-              <NationHero nation={selectedNation} nationInfo={nationInfo} />
-
-              <NationInfoSection
-                nationInfo={nationInfo}
-                settlementZones={settlementZones}
-                maleCostume={maleCostume}
-                femaleCostume={femaleCostume}
-              />
-
-              <NationGamesSection games={games} />
-
-              <CommentsSection
-                isAuth={isAuth}
-                canWriteComment={hasScope('comment:write')}
-                comments={comments}
-                commentText={commentText}
-                onCommentTextChange={setCommentText}
-                onSubmit={handleCommentSubmit}
-                commentError={commentError}
-                commentSuccess={commentSuccess}
-                isCommentSubmitting={isCommentSubmitting}
-              />
-            </>
+                <NationGamesSection games={games} />
+                <CommentsSection
+                  isAuth={isAuth}
+                  comments={comments}
+                  onSubmit={handleCommentSubmit}
+                  commentText={commentText}
+                  onCommentTextChange={setCommentText}
+                />
+              </>
+            )
           )}
         </main>
       </div>
