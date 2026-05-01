@@ -1,25 +1,4 @@
-/* Цветовая палитра и переменные */
-:root {
-  /* Светлая тема (дефолт) */
-  --ts-bg: #f6efe2;
-  --ts-panel: #f3eadb;
-  --ts-panel-border: #dbcdb4;
-  --ts-text: #2a2a2a;
-  --ts-muted: #756b5e;
-  --ts-accent: #3558b8;
-  --ts-accent-soft: rgba(53, 88, 184, 0.14);
-  --ts-accent-strong: rgba(53, 88, 184, 0.28);
-  --ts-city: #e14b4b;
-  --ts-city-ring: rgba(255, 255, 255, 0.98);
-  --ts-city-shadow: rgba(0, 0, 0, 0.16);
-  --ts-shadow: 0 10px 30px rgba(79, 60, 28, 0.08);
 
-  /* inline-цвета */
-  --ts-inline-hotspot-hover: rgba(53, 88, 184, 0.12);
-  --ts-inline-hotspot-border: rgba(53, 88, 184, 0.2);
-  --ts-inline-label-shadow: rgba(255, 255, 255, 0.96);
-  --ts-inline-gray-label: #6b7280;
-}
 
 /* Темная тема */
 .tatarstan-map-v2--dark {
@@ -44,32 +23,32 @@
 }
 
 .tatarstan-map-v2 {
-  --bg: #f6efe2;
-  --panel: #f3eadb;
-  --panel-border: #dbcdb4;
-  --text: #2a2a2a;
-  --muted: #756b5e;
-  --accent: #3558b8;
-  --accent-soft: rgba(53, 88, 184, 0.14);
-  --accent-strong: rgba(53, 88, 184, 0.28);
-  --city: #e14b4b;
-  --city-ring: rgba(255, 255, 255, 0.98);
-  --city-shadow: rgba(0, 0, 0, 0.16);
-  --shadow: 0 10px 30px rgba(79, 60, 28, 0.08);
+    --bg: var(--color-bg-page);
+    --panel: var(--color-bg-surface);
+    --panel-border: var(--color-border-base);
+    --text: var(--color-text-primary);
+    --muted: var(--color-text-secondary);
+    --accent: var(--color-brand-blue);
+    --accent-soft: var(--color-accent-blue-05);
+    --accent-strong: var(--color-shadow-blue-22);
+    --city: var(--color-brand-red);
+    --city-ring: var(--color-white);
+    --city-shadow: var(--color-shadow-brown-12);
+    --shadow: 0 10px 30px var(--color-shadow-brown-08);
 
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  color: var(--text);
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    sans-serif;
-  box-sizing: border-box;
-  overflow: hidden;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    color: var(--text);
+    font-family:
+            Inter,
+            system-ui,
+            -apple-system,
+            BlinkMacSystemFont,
+            'Segoe UI',
+            sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .tatarstan-map-v2 *,
@@ -216,13 +195,13 @@
 
 .tatarstan-map-v2__region-hotspot:hover,
 .tatarstan-map-v2__region-hotspot.is-hovered {
-  background: rgba(53, 88, 184, 0.12);
+  background: var(--accent-soft);
   box-shadow: inset 0 0 0 1px rgba(53, 88, 184, 0.2);
 }
 
 .tatarstan-map-v2__region-hotspot.is-selected,
 .tatarstan-map-v2__region-hotspot.is-highlighted {
-  background: rgba(53, 88, 184, 0.18);
+  background: var(--accent-strong);
   box-shadow: inset 0 0 0 2px rgba(53, 88, 184, 0.34);
 }
 
@@ -252,10 +231,10 @@
   width: 9px;
   height: 9px;
   border-radius: 999px;
-  background: #e54b4b;
+  background: var(--city);
   box-shadow:
-    0 0 0 2px rgba(255, 255, 255, 0.98),
-    0 1px 4px rgba(0, 0, 0, 0.16);
+    0 0 0 2px var(--color-white),
+    0 1px 4px var(--city-shadow);
   transition:
     transform 0.18s ease,
     box-shadow 0.18s ease;
@@ -274,10 +253,10 @@
   white-space: nowrap;
   font-size: 9px;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--muted);
   text-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.96),
-    0 0 6px rgba(255, 255, 255, 0.96);
+    0 1px 0 var(--color-overlay-white-45),
+    0 0 6px var(--color-overlay-white-45);
   pointer-events: none;
 }
 

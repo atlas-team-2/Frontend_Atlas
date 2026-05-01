@@ -1,8 +1,9 @@
-import { Costume, NationInfo, SettlementZone } from '@/client/api/nations';
+import { Costume, NationDetails, NationInfo, SettlementZone } from '@/client/api/nations';
 import TatarstanMap from '../TatarstanMap/TatarstanMap';
 import './NationInfoSection.css';
 
 interface NationInfoSectionProps {
+  nation: NationDetails;
   nationInfo: NationInfo;
   settlementZones: SettlementZone[];
   maleCostume?: Costume;
@@ -19,41 +20,25 @@ const COSTUME_IMAGES_MAP: Record<string, { photo1: string; photo2: string }> = {
   mari: { photo1: '/mari-costume1.jpg', photo2: '/mari-costume2.jpg' },
 };
 
-function findCostumeImages(selfName: string | undefined): { photo1: string; photo2: string } {
-  if (!selfName) return { photo1: '', photo2: '' };
+function findCostumeImages(slug: string): { photo1: string; photo2: string } {
+  const images = COSTUME_IMAGES_MAP[slug];
 
-  const name = selfName.toLowerCase().trim();
-
-  let selected = { photo1: '', photo2: '' };
-
-  if (name.includes('рус')) selected = COSTUME_IMAGES_MAP.russian;
-  else if (name.includes('тат')) selected = COSTUME_IMAGES_MAP.tatar;
-  else if (name.includes('баш')) selected = COSTUME_IMAGES_MAP.bashkir;
-  else if (
-    name.includes('чув') ||
-    name.includes('chuv') ||
-    name.includes('чăв') ||
-    name.includes('чуваш')
-  ) {
-    selected = COSTUME_IMAGES_MAP.chuvash;
-  } else if (name.includes('удм')) selected = COSTUME_IMAGES_MAP.udmurt;
-  else if (name.includes('мор')) selected = COSTUME_IMAGES_MAP.mordva;
-  else if (name.includes('мар')) selected = COSTUME_IMAGES_MAP.mari;
-
-  if (!selected.photo1) {
-    console.warn(`NationInfoSection: Не удалось сопоставить костюмы для народа "${selfName}"`);
+  if (!images) {
+    console.warn(`NationInfoSection: Не удалось найти костюмы для slug "${slug}"`);
+    return { photo1: '', photo2: '' };
   }
 
-  return selected;
+  return images;
 }
 
 function NationInfoSection({
+  nation,
   nationInfo,
   settlementZones,
   maleCostume,
   femaleCostume,
 }: NationInfoSectionProps) {
-  const staticImages = findCostumeImages(nationInfo.self_name);
+  const staticImages = findCostumeImages(nation.slug);
 
   const firstImgSrc = maleCostume?.image_url || staticImages.photo1;
   const secondImgSrc = femaleCostume?.image_url || staticImages.photo2;
@@ -126,6 +111,9 @@ function NationInfoSection({
                   <img
                     src={firstImgSrc}
                     alt={`Костюм 1 — ${nationInfo.self_name}`}
+                    loading="lazy"
+                    width={400}
+                    height={533}
                     onError={() =>
                       console.error(`Ошибка 404: Файл не найден по пути: ${firstImgSrc}`)
                     }
@@ -140,6 +128,9 @@ function NationInfoSection({
                   <img
                     src={secondImgSrc}
                     alt={`Костюм 2 — ${nationInfo.self_name}`}
+                    loading="lazy"
+                    width={400}
+                    height={533}
                     onError={() =>
                       console.error(`Ошибка 404: Файл не найден по пути: ${secondImgSrc}`)
                     }

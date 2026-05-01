@@ -99,15 +99,27 @@ function PeopleListPage() {
 
   async function handleCommentSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (!selectedNationId || !commentText.trim()) return;
+
+    const trimmedComment = commentText.trim();
+
+    if (!selectedNationId || !trimmedComment) return;
+
     setIsCommentSubmitting(true);
+    setCommentError('');
+    setCommentSuccess('');
+
     try {
       const token = authStorage.getAccessToken() || undefined;
-      await createNationComment(selectedNationId, commentText.trim(), token);
+
+      await createNationComment(selectedNationId, trimmedComment, token);
+
       setCommentText('');
       setCommentSuccess('Отправлено');
+
       const refreshed = await getNationComments(selectedNationId);
       setComments(refreshed);
+    } catch (error) {
+      setCommentError(error instanceof Error ? error.message : 'Не удалось отправить комментарий');
     } finally {
       setIsCommentSubmitting(false);
     }
@@ -155,6 +167,7 @@ function PeopleListPage() {
                 <NationHero nation={selectedNation} nationInfo={nationInfo} />
 
                 <NationInfoSection
+                  nation={selectedNation}
                   nationInfo={nationInfo}
                   settlementZones={settlementZones}
                   maleCostume={maleCostume}
@@ -168,6 +181,8 @@ function PeopleListPage() {
                   onSubmit={handleCommentSubmit}
                   commentText={commentText}
                   onCommentTextChange={setCommentText}
+                  commentError={commentError}
+                  commentSuccess={commentSuccess}
                 />
               </>
             )
