@@ -25,3 +25,5 @@ yarn-debug.log*
 yarn-error.log*
 /codegen/node_modules/
 /codegen/openapi_atlas.yaml
+.env
+.env.*.local
