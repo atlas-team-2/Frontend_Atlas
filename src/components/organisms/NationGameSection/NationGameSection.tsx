@@ -1,10 +1,34 @@
+import { useState } from 'react';
 import { Game } from '@/client/api/nations';
+import OrnamentGame from '@/components/organisms/OrnamentGame/OrnamentGame';
 
 interface NationGamesSectionProps {
   games: Game[];
 }
 
 function NationGamesSection({ games }: NationGamesSectionProps) {
+  const [activeGameType, setActiveGameType] = useState<string | null>(null);
+
+  if (activeGameType === 'ornament') {
+    return (
+      <section className="nation-section">
+        <div className="nation-section__header">
+          <button
+            type="button"
+            className="game-card__button"
+            onClick={() => setActiveGameType(null)}
+          >
+            ← Назад к играм
+          </button>
+        </div>
+
+        <div className="nation-section__content">
+          <OrnamentGame />
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="nation-section">
       <div className="nation-section__header">
@@ -17,43 +41,29 @@ function NationGamesSection({ games }: NationGamesSectionProps) {
             {games.length > 0 ? (
               games.map((game) => (
                 <div key={game.id} className="game-card">
-                  <div className="game-card__icon">🎮</div>
+                  <div className="game-card__icon">
+                    {game.type === 'dish' && '🍲'}
+                    {game.type === 'holiday' && '🎉'}
+                    {game.type === 'ornament' && '✳️'}
+                  </div>
+
                   <h3 className="game-card__title">{game.title}</h3>
+
                   <p className="game-card__text">
                     {game.description || 'Интерактивная игра по культуре народа'}
                   </p>
-                  <button className="game-card__button">Играть</button>
+
+                  <button
+                    type="button"
+                    className="game-card__button"
+                    onClick={() => setActiveGameType(game.type)}
+                  >
+                    Играть
+                  </button>
                 </div>
               ))
             ) : (
-              <>
-                <div className="game-card">
-                  <div className="game-card__icon">🍲</div>
-                  <h3 className="game-card__title">Угадай блюдо</h3>
-                  <p className="game-card__text">Скоро будет доступно</p>
-                  <button className="game-card__button" disabled>
-                    Скоро
-                  </button>
-                </div>
-
-                <div className="game-card">
-                  <div className="game-card__icon">🎉</div>
-                  <h3 className="game-card__title">Угадай праздник</h3>
-                  <p className="game-card__text">Скоро будет доступно</p>
-                  <button className="game-card__button" disabled>
-                    Скоро
-                  </button>
-                </div>
-
-                <div className="game-card">
-                  <div className="game-card__icon">✳️</div>
-                  <h3 className="game-card__title">Угадай орнамент</h3>
-                  <p className="game-card__text">Скоро будет доступно</p>
-                  <button className="game-card__button" disabled>
-                    Скоро
-                  </button>
-                </div>
-              </>
+              <p>Игры для этого народа пока не добавлены.</p>
             )}
           </div>
         </div>
