@@ -1,20 +1,28 @@
-import { KeyboardEventHandler, useCallback, useRef, useState } from 'react';
+import { KeyboardEventHandler, useCallback, useRef, useState, useEffect } from 'react';
 import './RussiaMap.css';
+import TatarstanMap from '../TatarstanMap/TatarstanMap';
+import { SettlementZone } from '@/client/api/nations';
 
 type RussiaMapProps = {
   onTatarstanClick?: () => void;
   isActive?: boolean;
+  zones?: SettlementZone[];
 };
 
 type Phase = 'idle' | 'zooming' | 'detail';
 
-const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
+const RussiaMap = ({ onTatarstanClick, isActive = false, zones = [] }: RussiaMapProps) => {
   const [hovered, setHovered] = useState(false);
-  const [phase, setPhase] = useState<Phase>('idle');
+  const [phase, setPhase] = useState<Phase>(zones.length > 0 ? 'detail' : 'idle');
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const tatarstanCenter = { x: 192, y: 500 };
-  const zoomed = phase === 'zooming' || phase === 'detail';
+
+  const isProfile = zones.length > 0;
+  const zoomed = isProfile || phase === 'zooming' || phase === 'detail';
+
+  const activeRegionIds = zones.map((z) => (z.polygon_data as any)?.regionId).filter(Boolean);
+  const activeColor = zones.length > 0 ? zones[0].color || '#2e7d32' : '#E0E0E0';
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) {
@@ -24,13 +32,14 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
   }, []);
 
   const handleMouseLeave = () => {
+    if (isProfile) return;
     clearTimer();
     setHovered(false);
     setPhase('idle');
   };
 
   const handleClick = () => {
-    if (phase !== 'idle') return;
+    if (isProfile || phase !== 'idle') return;
     setPhase('zooming');
     clearTimer();
     timerRef.current = setTimeout(() => setPhase('detail'), 800);
@@ -49,7 +58,7 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
   return (
     <div className="russia-map-scene">
       <div
-        className={`russia-map-card ${isActive ? 'active' : ''}`}
+        className={`russia-map-card ${isProfile ? 'active' : ''}`}
         onMouseLeave={handleMouseLeave}
       >
         <div className="russia-map-glow" />
@@ -59,21 +68,18 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
           style={{
             transform: zoomed ? 'scale(4)' : 'scale(1)',
             opacity: zoomed ? 0 : 1,
+            transition: 'transform 0.8s ease, opacity 0.6s ease',
+            visibility: zoomed && phase === 'detail' ? 'hidden' : 'visible',
           }}
         >
           <img
             src="/russia-map-photo.png"
-            alt="Карта России с выделенным Татарстаном"
+            alt="Карта России"
             className="russia-map-image"
             draggable={false}
           />
 
-          <svg
-            viewBox="0 0 1050 645"
-            className="russia-map-overlay"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="none"
-          >
+          <svg viewBox="0 0 1050 645" className="russia-map-overlay" preserveAspectRatio="none">
             <defs>
               <radialGradient id="pulseGradient" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="#1bc75e" stopOpacity="0.50" />
@@ -89,10 +95,8 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
               onKeyDown={handleKeyDown}
               role="button"
               tabIndex={0}
-              aria-label="Открыть Татарстан"
             >
               <circle cx={tatarstanCenter.x} cy={tatarstanCenter.y} r="34" fill="transparent" />
-
               <circle
                 className="tatarstan-pulse pulse-1"
                 cx={tatarstanCenter.x}
@@ -100,7 +104,6 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
                 r="20"
                 fill="url(#pulseGradient)"
               />
-
               <circle
                 className="tatarstan-pulse pulse-2"
                 cx={tatarstanCenter.x}
@@ -108,7 +111,6 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
                 r="14"
                 fill="url(#pulseGradient)"
               />
-
               <circle
                 cx={tatarstanCenter.x}
                 cy={tatarstanCenter.y}
@@ -116,7 +118,7 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
                 className="tatarstan-center-dot"
               />
 
-              {hovered && phase === 'idle' && (
+              {hovered && !zoomed && (
                 <g className="tatarstan-tooltip">
                   <rect
                     x={tatarstanCenter.x + 18}
@@ -137,15 +139,24 @@ const RussiaMap = ({ onTatarstanClick, isActive = false }: RussiaMapProps) => {
         <div
           className="tatarstan-detail-wrap"
           style={{
-            opacity: phase === 'detail' ? 1 : 0,
+            opacity: zoomed ? 1 : 0,
+            pointerEvents: zoomed ? 'all' : 'none',
+            transition: 'opacity 0.5s ease',
+            display: zoomed ? 'block' : 'none',
           }}
         >
-          <img
-            src="/tatarstan-map.png"
-            alt="Карта Татарстана"
-            className="tatarstan-detail-image"
-            draggable={false}
-          />
+          {isProfile ? (
+            <div className="tatarstan-svg-container" style={{ width: '100%', height: '100%' }}>
+              <TatarstanMap activeRegions={activeRegionIds} activeColor={activeColor} />
+            </div>
+          ) : (
+            <img
+              src="/tatarstan-map.png"
+              alt="Карта Татарстана"
+              className="tatarstan-detail-image"
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+            />
+          )}
         </div>
       </div>
     </div>

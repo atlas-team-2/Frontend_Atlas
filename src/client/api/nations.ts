@@ -1,6 +1,8 @@
 import { safeFetch } from '@/client/api/http';
+import { MOCK_NATIONS, MOCK_NATION_DETAILS, MOCK_COMMENTS } from './nations.mock';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const USE_MOCKS = true;
 
 export interface Nation {
   id: string;
@@ -85,7 +87,15 @@ async function parseError(response: Response): Promise<string> {
     return 'Произошла ошибка';
   }
 }
+
 export async function getNations(search = ''): Promise<Nation[]> {
+  if (USE_MOCKS) {
+    const filtered = MOCK_NATIONS.filter((n) =>
+      n.name.toLowerCase().includes(search.toLowerCase())
+    );
+    return Promise.resolve(filtered);
+  }
+
   const query = new URLSearchParams({
     page: '1',
     page_size: '100',
@@ -107,7 +117,12 @@ export async function getNations(search = ''): Promise<Nation[]> {
   return data.items;
 }
 
-export async function getNationById(nationId: string) {
+export async function getNationById(nationId: string): Promise<NationDetails> {
+  if (USE_MOCKS) {
+    const data = MOCK_NATION_DETAILS[nationId] || MOCK_NATION_DETAILS['tatar'];
+    return Promise.resolve(data);
+  }
+
   const response = await safeFetch(`${API_URL}/api/v1/nations/${nationId}`);
 
   if (!response.ok) {
@@ -118,6 +133,11 @@ export async function getNationById(nationId: string) {
 }
 
 export async function getNationInfo(nationId: string): Promise<NationInfo> {
+  if (USE_MOCKS) {
+    const data = MOCK_NATION_DETAILS[nationId]?.info || MOCK_NATION_DETAILS['tatar'].info!;
+    return Promise.resolve(data);
+  }
+
   const response = await safeFetch(`${API_URL}/api/v1/nations/${nationId}/info`);
 
   if (!response.ok) {
@@ -128,6 +148,11 @@ export async function getNationInfo(nationId: string): Promise<NationInfo> {
 }
 
 export async function getSettlementZones(nationId: string): Promise<SettlementZone[]> {
+  if (USE_MOCKS) {
+    const data = MOCK_NATION_DETAILS[nationId]?.settlement_zones || [];
+    return Promise.resolve(data);
+  }
+
   const response = await safeFetch(
     `${API_URL}/api/v1/nations/${nationId}/settlement-zones?page=1&page_size=100`
   );
@@ -141,6 +166,11 @@ export async function getSettlementZones(nationId: string): Promise<SettlementZo
 }
 
 export async function getNationCostumes(nationId: string): Promise<Costume[]> {
+  if (USE_MOCKS) {
+    const data = MOCK_NATION_DETAILS[nationId]?.costumes || [];
+    return Promise.resolve(data);
+  }
+
   const response = await safeFetch(
     `${API_URL}/api/v1/nations/${nationId}/costumes?page=1&page_size=20`
   );
@@ -154,6 +184,11 @@ export async function getNationCostumes(nationId: string): Promise<Costume[]> {
 }
 
 export async function getNationGames(nationId: string): Promise<Game[]> {
+  if (USE_MOCKS) {
+    const data = MOCK_NATION_DETAILS[nationId]?.games || [];
+    return Promise.resolve(data);
+  }
+
   const response = await safeFetch(
     `${API_URL}/api/v1/nations/${nationId}/games?page=1&page_size=20`
   );
@@ -167,6 +202,11 @@ export async function getNationGames(nationId: string): Promise<Game[]> {
 }
 
 export async function getNationComments(nationId: string): Promise<Comment[]> {
+  if (USE_MOCKS) {
+    const data = MOCK_COMMENTS[nationId] || [];
+    return Promise.resolve(data);
+  }
+
   const response = await safeFetch(
     `${API_URL}/api/v1/nations/${nationId}/comments?page=1&page_size=20&sort_by=created_at&sort_order=desc`
   );
@@ -184,6 +224,18 @@ export async function createNationComment(
   text: string,
   token?: string
 ): Promise<Comment> {
+  if (USE_MOCKS) {
+    const newComment: Comment = {
+      id: Math.random().toString(36).substr(2, 9),
+      nation_id: nationId,
+      user_id: 'current-user',
+      text,
+      created_at: new Date().toISOString(),
+      status: 'approved',
+    };
+    return Promise.resolve(newComment);
+  }
+
   const response = await safeFetch(`${API_URL}/api/v1/nations/${nationId}/comments`, {
     method: 'POST',
     headers: {

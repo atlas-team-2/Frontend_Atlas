@@ -1,20 +1,50 @@
-import { Costume, NationInfo, SettlementZone } from '@/client/api/nations';
+import { Costume, NationDetails, NationInfo, SettlementZone } from '@/client/api/nations';
+import TatarstanMap from '../TatarstanMap/TatarstanMap';
+import './NationInfoSection.css';
 
 interface NationInfoSectionProps {
+  nation: NationDetails;
   nationInfo: NationInfo;
   settlementZones: SettlementZone[];
   maleCostume?: Costume;
   femaleCostume?: Costume;
 }
 
+const COSTUME_IMAGES_MAP: Record<string, { photo1: string; photo2: string }> = {
+  russian: { photo1: '/russ-costume1.jpg', photo2: '/russ-costume2.jpg' },
+  bashkir: { photo1: '/bashkir-costume1.jpg', photo2: '/bashkir-costume2.jpg' },
+  tatar: { photo1: '/tatar-costume1.jpg', photo2: '/tatar-costume2.jpg' },
+  chuvash: { photo1: '/chuvash-costume1.jpg', photo2: '/chuvash-costume2.jpg' },
+  udmurt: { photo1: '/udmurt-costume1.jpg', photo2: '/udmurt-costume2.jpg' },
+  mordva: { photo1: '/mordva-costume1.jpg', photo2: '/mordva-costume2.jpg' },
+  mari: { photo1: '/mari-costume1.jpg', photo2: '/mari-costume2.jpg' },
+};
+
+function findCostumeImages(slug: string): { photo1: string; photo2: string } {
+  const images = COSTUME_IMAGES_MAP[slug];
+
+  if (!images) {
+    console.warn(`NationInfoSection: Не удалось найти костюмы для slug "${slug}"`);
+    return { photo1: '', photo2: '' };
+  }
+
+  return images;
+}
+
 function NationInfoSection({
+  nation,
   nationInfo,
   settlementZones,
   maleCostume,
   femaleCostume,
 }: NationInfoSectionProps) {
+  const staticImages = findCostumeImages(nation.slug);
+
+  const firstImgSrc = maleCostume?.image_url || staticImages.photo1;
+  const secondImgSrc = femaleCostume?.image_url || staticImages.photo2;
+
   return (
-    <>
+    <div className="nation-info-section">
       <section className="nation-section">
         <div className="nation-section__header">
           <h2 className="nation-section__title">Карта расселения</h2>
@@ -24,34 +54,10 @@ function NationInfoSection({
         </div>
 
         <div className="nation-section__content">
-          <div className="settlement-map">
-            <div className="settlement-map__card">
-              <div className="settlement-map__canvas">
-                {settlementZones.length > 0 ? (
-                  <div className="settlement-zones-list">
-                    {settlementZones.map((zone) => (
-                      <div key={zone.id} className="settlement-zone-item">
-                        <span
-                          className="settlement-zone-item__dot"
-                          style={{ backgroundColor: zone.color || '#2e8b57' }}
-                        />
-                        <span>{zone.region_name}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <span>Нет данных по зонам расселения</span>
-                )}
-              </div>
-
-              <div className="settlement-map__legend">
-                <div className="settlement-map__legend-item">
-                  <span className="settlement-map__legend-dot" />
-                  <span>Основные зоны расселения</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <TatarstanMap
+            highlightedRegions={settlementZones.map((z) => z.id)}
+            title="Интерактивная карта Татарстана"
+          />
         </div>
       </section>
 
@@ -98,62 +104,46 @@ function NationInfoSection({
         </div>
 
         <div className="nation-section__content">
-          <div className="costumes-block">
-            <div className="costumes-block__grid">
-              <div className="costume-card">
-                {maleCostume ? (
-                  <>
-                    <img
-                      src={maleCostume.image_url}
-                      alt="Мужской костюм"
-                      className="costume-card__real-image"
-                    />
-                    <div className="costume-card__body">
-                      <h3 className="costume-card__title">Мужской</h3>
-                      <p className="costume-card__text">
-                        {maleCostume.description || 'Традиционный костюм'}
-                      </p>
-                    </div>
-                  </>
+          <div className="costumes-unified-card">
+            <div className="costumes-unified-card__display">
+              <div className="costume-item">
+                {firstImgSrc ? (
+                  <img
+                    src={firstImgSrc}
+                    alt={`Костюм 1 — ${nationInfo.self_name}`}
+                    loading="lazy"
+                    width={400}
+                    height={533}
+                    onError={() =>
+                      console.error(`Ошибка 404: Файл не найден по пути: ${firstImgSrc}`)
+                    }
+                  />
                 ) : (
-                  <>
-                    <div className="costume-card__image">Нет мужского костюма</div>
-                    <div className="costume-card__body">
-                      <h3 className="costume-card__title">Мужской</h3>
-                    </div>
-                  </>
+                  <div className="costume-item__placeholder">Нет фото 1</div>
                 )}
               </div>
 
-              <div className="costume-card">
-                {femaleCostume ? (
-                  <>
-                    <img
-                      src={femaleCostume.image_url}
-                      alt="Женский костюм"
-                      className="costume-card__real-image"
-                    />
-                    <div className="costume-card__body">
-                      <h3 className="costume-card__title">Женский</h3>
-                      <p className="costume-card__text">
-                        {femaleCostume.description || 'Традиционный костюм'}
-                      </p>
-                    </div>
-                  </>
+              <div className="costume-item">
+                {secondImgSrc ? (
+                  <img
+                    src={secondImgSrc}
+                    alt={`Костюм 2 — ${nationInfo.self_name}`}
+                    loading="lazy"
+                    width={400}
+                    height={533}
+                    onError={() =>
+                      console.error(`Ошибка 404: Файл не найден по пути: ${secondImgSrc}`)
+                    }
+                  />
                 ) : (
-                  <>
-                    <div className="costume-card__image">Нет женского костюма</div>
-                    <div className="costume-card__body">
-                      <h3 className="costume-card__title">Женский</h3>
-                    </div>
-                  </>
+                  <div className="costume-item__placeholder">Нет фото 2</div>
                 )}
               </div>
             </div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
 

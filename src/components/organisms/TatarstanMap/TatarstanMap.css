@@ -1,0 +1,401 @@
+/* Темная тема */
+.tatarstan-map-v2--dark {
+  --ts-bg: #171717;
+  --ts-panel: #232323;
+  --ts-panel-border: #353535;
+  --ts-text: #f2f2f2;
+  --ts-muted: #b8b8b8;
+  --ts-accent: #8fb2ff;
+  --ts-accent-soft: rgba(143, 178, 255, 0.14);
+  --ts-accent-strong: rgba(143, 178, 255, 0.28);
+  --ts-city: #ff6b6b;
+  --ts-city-ring: rgba(30, 30, 30, 0.92);
+  --ts-city-shadow: rgba(0, 0, 0, 0.35);
+  --ts-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+
+  /* Адаптация inline-цветов для темной темы */
+  --ts-inline-hotspot-hover: rgba(143, 178, 255, 0.1);
+  --ts-inline-hotspot-border: rgba(143, 178, 255, 0.22);
+  --ts-inline-label-shadow: rgba(0, 0, 0, 0.8);
+  --ts-inline-gray-label: #f4f4f4;
+}
+
+.tatarstan-map-v2 {
+  --bg: var(--color-bg-page);
+  --panel: var(--color-bg-surface);
+  --panel-border: var(--color-border-base);
+  --text: var(--color-text-primary);
+  --muted: var(--color-text-secondary);
+  --accent: var(--color-brand-blue);
+  --accent-soft: var(--color-accent-blue-05);
+  --accent-strong: var(--color-shadow-blue-22);
+  --city: var(--color-brand-red);
+  --city-ring: var(--color-white);
+  --city-shadow: var(--color-shadow-brown-12);
+  --shadow: 0 10px 30px var(--color-shadow-brown-08);
+
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  color: var(--text);
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.tatarstan-map-v2 *,
+.tatarstan-map-v2 *::before,
+.tatarstan-map-v2 *::after {
+  box-sizing: border-box;
+}
+
+.tatarstan-map-v2--dark {
+  --bg: #171717;
+  --panel: #232323;
+  --panel-border: #353535;
+  --text: #f2f2f2;
+  --muted: #b8b8b8;
+  --accent: #8fb2ff;
+  --accent-soft: rgba(143, 178, 255, 0.14);
+  --accent-strong: rgba(143, 178, 255, 0.28);
+  --city: #ff6b6b;
+  --city-ring: rgba(30, 30, 30, 0.92);
+  --city-shadow: rgba(0, 0, 0, 0.35);
+  --shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
+}
+
+.tatarstan-map-v2__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.tatarstan-map-v2__title {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.tatarstan-map-v2__theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tatarstan-map-v2__theme-switcher button {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  padding: 0;
+  border-radius: 6px;
+  border: 1px solid var(--panel-border);
+  background: var(--panel);
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.18s ease;
+}
+
+.tatarstan-map-v2__theme-switcher button:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tatarstan-map-v2__theme-switcher button.is-active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.tatarstan-map-v2__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+  gap: 18px;
+  align-items: start;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.tatarstan-map-v2__map-card {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.tatarstan-map-v2__map-area {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  aspect-ratio: 800 / 430;
+  min-height: 420px;
+  border-radius: 10px;
+  background: var(--bg);
+  padding-left: 20px;
+  padding-right: 26px;
+  overflow: hidden;
+}
+
+.tatarstan-map-v2__image {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 26px;
+  bottom: 0;
+  width: calc(100% - 46px);
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  user-select: none;
+  pointer-events: none;
+}
+
+.tatarstan-map-v2__regions,
+.tatarstan-map-v2__cities {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  right: 26px;
+  bottom: 0;
+}
+
+.tatarstan-map-v2__region-hotspot {
+  position: absolute;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.tatarstan-map-v2__region-hotspot:hover,
+.tatarstan-map-v2__region-hotspot.is-hovered {
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px rgba(53, 88, 184, 0.2);
+}
+
+.tatarstan-map-v2__region-hotspot.is-selected,
+.tatarstan-map-v2__region-hotspot.is-highlighted {
+  background: var(--accent-strong);
+  box-shadow: inset 0 0 0 2px rgba(53, 88, 184, 0.34);
+}
+
+.tatarstan-map-v2--dark .tatarstan-map-v2__region-hotspot:hover,
+.tatarstan-map-v2--dark .tatarstan-map-v2__region-hotspot.is-hovered {
+  background: rgba(143, 178, 255, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(143, 178, 255, 0.22);
+}
+
+.tatarstan-map-v2--dark .tatarstan-map-v2__region-hotspot.is-selected,
+.tatarstan-map-v2--dark .tatarstan-map-v2__region-hotspot.is-highlighted {
+  background: rgba(143, 178, 255, 0.16);
+  box-shadow: inset 0 0 0 2px rgba(143, 178, 255, 0.38);
+}
+
+.tatarstan-map-v2__city {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.tatarstan-map-v2__city-dot {
+  display: block;
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: var(--city);
+  box-shadow:
+    0 0 0 2px var(--color-white),
+    0 1px 4px var(--city-shadow);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.tatarstan-map-v2__city.is-active .tatarstan-map-v2__city-dot,
+.tatarstan-map-v2__city:hover .tatarstan-map-v2__city-dot {
+  transform: scale(1.15);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.98),
+    0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.tatarstan-map-v2__city-label {
+  position: absolute;
+  white-space: nowrap;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--muted);
+  text-shadow:
+    0 1px 0 var(--color-overlay-white-45),
+    0 0 6px var(--color-overlay-white-45);
+  pointer-events: none;
+}
+
+.tatarstan-map-v2--dark .tatarstan-map-v2__city-label {
+  color: #f4f4f4;
+  text-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.8),
+    0 0 7px rgba(0, 0, 0, 0.85);
+}
+
+.tatarstan-map-v2__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+  width: 100%;
+}
+
+.tatarstan-map-v2__panel {
+  width: 100%;
+  min-width: 0;
+  background: var(--panel);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+
+.tatarstan-map-v2__panel h4 {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.tatarstan-map-v2__section + .tatarstan-map-v2__section {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--panel-border);
+}
+
+.tatarstan-map-v2__region-name {
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.tatarstan-map-v2__subtitle {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.tatarstan-map-v2__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 14px;
+}
+
+.tatarstan-map-v2__text {
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.tatarstan-map-v2__list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.tatarstan-map-v2__list li {
+  margin-bottom: 6px;
+  font-size: 14px;
+  line-height: 1.4;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.tatarstan-map-v2__empty {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .tatarstan-map-v2__layout {
+    display: flex !important;
+    flex-direction: column !important;
+    grid-template-columns: 1fr !important;
+    gap: 16px;
+  }
+
+  .tatarstan-map-v2__map-area {
+    aspect-ratio: auto;
+    min-height: 280px;
+    height: 320px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .tatarstan-map-v2__image,
+  .tatarstan-map-v2__regions,
+  .tatarstan-map-v2__cities {
+    left: 10px;
+    right: 10px;
+    width: calc(100% - 20px);
+  }
+
+  .tatarstan-map-v2__sidebar {
+    display: flex !important;
+    order: 2;
+    width: 100% !important;
+    min-width: 100% !important;
+  }
+
+  .tatarstan-map-v2__map-card {
+    order: 1;
+    width: 100% !important;
+    padding: 6px;
+  }
+
+  .tatarstan-map-v2 {
+    overflow: visible !important;
+    height: auto !important;
+  }
+
+  .tatarstan-map-v2__region-name {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tatarstan-map-v2__map-area {
+    height: 240px;
+    min-height: 240px;
+  }
+}
