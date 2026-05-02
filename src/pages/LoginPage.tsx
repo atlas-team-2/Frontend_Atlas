@@ -30,7 +30,7 @@ function LoginPage() {
 
     try {
       await login(email, password);
-      navigate('/');
+      navigate('/profile');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка входа');
     } finally {

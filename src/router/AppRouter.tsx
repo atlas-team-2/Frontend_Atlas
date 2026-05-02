@@ -1,5 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import MapPage from '@/pages/MapPage';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import LoginPage from '@/pages/LoginPage';
 import PeopleListPage from '@/pages/PeopleListPage';
 import PeopleProfilePage from '@/pages/PeopleProfilePage';
@@ -14,6 +13,7 @@ import { useAuth } from '@/hooks/useAuth';
 import NotFoundPage from '@/pages/NotFoundPage';
 import ForbiddenPage from '@/pages/ForbiddenPage';
 import HomePage from '@/pages/HomePage';
+import ProfilePage from '@/pages/ProfilePage';
 
 function AppRouter() {
   const { isAuth, isLoading } = useAuth();
@@ -34,6 +34,10 @@ function AppRouter() {
         </Route>
 
         <Route element={<PrivateRoute isAuth={isAuth} isLoading={isLoading} />}>
+          <Route element={<MainLayout />}>
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+
           <Route element={<ScopeGuard requiredScopes={['user:read']} />}>
             <Route element={<MainLayout />}>
               <Route path="/admin" element={<AdminDashboard />} />
