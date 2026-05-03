@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { CSSProperties, useEffect, useMemo, useState } from 'react';
 import './TatarstanMap.css';
 
 type ThemeMode = 'light' | 'dark';
@@ -39,6 +39,7 @@ interface Props {
   className?: string;
   onRegionClick?: (regionId: string) => void;
   highlightedRegions?: string[];
+  highlightColor?: string;
   initialTheme?: ThemeMode;
   showControls?: boolean;
   title?: string;
@@ -266,6 +267,7 @@ const TatarstanMap: React.FC<Props> = ({
   className = '',
   onRegionClick,
   highlightedRegions = [],
+  highlightColor,
   initialTheme = 'light',
   showControls = true,
   title = 'Карта Татарстана',
@@ -275,6 +277,19 @@ const TatarstanMap: React.FC<Props> = ({
   const [selectedCityId, setSelectedCityId] = useState<string | null>(null);
   const [hoveredRegionId, setHoveredRegionId] = useState<string | null>(null);
   const [hoveredCityId, setHoveredCityId] = useState<string | null>(null);
+
+  const normalizedHighlightIds = useMemo(() => new Set(highlightedRegions), [highlightedRegions]);
+  const mapStyle = highlightColor
+    ? ({ '--highlight-color': highlightColor } as CSSProperties)
+    : undefined;
+
+  useEffect(() => {
+    const firstHighlightedRegion = highlightedRegions.find((regionId) => REGION_DETAILS[regionId]);
+
+    if (firstHighlightedRegion) {
+      setSelectedRegionId(firstHighlightedRegion);
+    }
+  }, [highlightedRegions]);
 
   const activeRegionId = hoveredRegionId || selectedRegionId;
   const activeCityId = hoveredCityId || selectedCityId;
@@ -307,7 +322,7 @@ const TatarstanMap: React.FC<Props> = ({
   };
 
   return (
-    <div className={`tatarstan-map-v2 tatarstan-map-v2--${theme} ${className}`}>
+    <div className={`tatarstan-map-v2 tatarstan-map-v2--${theme} ${className}`} style={mapStyle}>
       <div className="tatarstan-map-v2__header">
         <h3 className="tatarstan-map-v2__title">{title}</h3>
         {showControls && (
@@ -342,7 +357,7 @@ const TatarstanMap: React.FC<Props> = ({
               {REGIONS.map((region) => (
                 <button
                   key={region.id}
-                  className={`tatarstan-map-v2__region-hotspot ${selectedRegionId === region.id ? 'is-selected' : ''}`}
+                  className={`tatarstan-map-v2__region-hotspot ${selectedRegionId === region.id ? 'is-selected' : ''} ${normalizedHighlightIds.has(region.id) ? 'is-highlighted' : ''}`}
                   style={{
                     left: `${region.x}%`,
                     top: `${region.y}%`,
@@ -427,6 +442,18 @@ const TatarstanMap: React.FC<Props> = ({
               <div className="tatarstan-map-v2__empty">Выберите регион или город на карте</div>
             )}
           </div>
+
+          {highlightedRegions.length > 0 && (
+            <div className="tatarstan-map-v2__panel tatarstan-map-v2__highlight-note">
+              <div className="tatarstan-map-v2__subtitle">Зоны расселения выбранного народа</div>
+              <div className="tatarstan-map-v2__text">
+                {highlightedRegions
+                  .map((regionId) => REGION_DETAILS[regionId]?.name)
+                  .filter(Boolean)
+                  .join(', ')}
+              </div>
+            </div>
+          )}
         </aside>
       </div>
     </div>

@@ -2,7 +2,6 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import MapPage from '@/pages/MapPage';
 import LoginPage from '@/pages/LoginPage';
 import PeopleListPage from '@/pages/PeopleListPage';
-import PeopleProfilePage from '@/pages/PeopleProfilePage';
 import RegisterPage from '@/pages/RegisterPage';
 import AdminUser from '@/pages/admin/AdminUser';
 import AdminComments from '@/pages/admin/AdminComments';
@@ -24,7 +23,7 @@ function AppRouter() {
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/peoples" element={<PeopleListPage />} />
-          <Route path="/peoples/:id" element={<PeopleProfilePage />} />
+          <Route path="/peoples/:id" element={<PeopleListPage />} />
         </Route>
 
         <Route element={<MainLayout />}>

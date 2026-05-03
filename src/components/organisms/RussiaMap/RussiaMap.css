@@ -4,6 +4,8 @@
   justify-content: center;
   align-items: center;
   perspective: 1600px;
+  overflow: hidden;
+  border-radius: 26px;
 }
 
 .russia-map-card {
@@ -13,6 +15,8 @@
   transform-style: preserve-3d;
   transition: transform 0.18s ease-out;
   will-change: transform;
+  overflow: hidden;
+  border-radius: 26px;
 }
 
 .russia-map-card.active {
@@ -25,7 +29,8 @@
   width: 100%;
   overflow: hidden;
   background: transparent;
-  box-shadow: 0 24px 60px rgba(5, 15, 35, 0.18);
+  border: none;
+  box-shadow: none;
   transform-origin: 18.3% 77.5%;
   transition:
     transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),

@@ -356,6 +356,16 @@
   }
 }
 
+.game-notice {
+  margin-bottom: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(64, 86, 161, 0.08);
+  border: 1px solid rgba(64, 86, 161, 0.18);
+  color: var(--color-brand-blue);
+  font-weight: 600;
+}
+
 .games-block__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -491,6 +501,19 @@
   flex-direction: column;
   gap: 12px;
 }
+.comments-loading {
+  padding: 18px;
+  border-radius: 18px;
+  background: var(--color-bg-surface);
+  border: 1px solid var(--color-border-light);
+  color: var(--color-text-secondary);
+  text-align: center;
+}
+
+.comments-block__textarea:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
 
 .comment-card {
   padding: 16px;
@@ -558,6 +581,16 @@
     position: static;
   }
 
+  .game-notice {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(64, 86, 161, 0.08);
+    border: 1px solid rgba(64, 86, 161, 0.18);
+    color: var(--color-brand-blue);
+    font-weight: 600;
+  }
+
   .games-block__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -574,6 +607,16 @@
 
   .nation-info__grid,
   .costumes-block__grid,
+  .game-notice {
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    border-radius: 16px;
+    background: rgba(64, 86, 161, 0.08);
+    border: 1px solid rgba(64, 86, 161, 0.18);
+    color: var(--color-brand-blue);
+    font-weight: 600;
+  }
+
   .games-block__grid {
     grid-template-columns: 1fr;
   }

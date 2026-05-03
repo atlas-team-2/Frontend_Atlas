@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import './PeopleListPage.css';
 import {
   Comment,
@@ -26,7 +27,9 @@ import CommentsSection from '@/components/organisms/CommentsSection/CommentsSect
 import NationInfoSection from '@/components/organisms/NationInfoSection/NationInfoSection';
 
 function PeopleListPage() {
-  const { isAuth, hasScope } = useAuth();
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+  const { id: routeNationId } = useParams<{ id?: string }>();
 
   const [search, setSearch] = useState('');
   const [nations, setNations] = useState<Nation[]>([]);
@@ -41,6 +44,7 @@ function PeopleListPage() {
 
   const [isLoadingNations, setIsLoadingNations] = useState(true);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+  const [isLoadingComments, setIsLoadingComments] = useState(false);
   const [pageError, setPageError] = useState('');
 
   const [commentText, setCommentText] = useState('');
@@ -53,6 +57,11 @@ function PeopleListPage() {
   }, []);
 
   useEffect(() => {
+    if (!routeNationId || routeNationId === selectedNationId) return;
+    setSelectedNationId(routeNationId);
+  }, [routeNationId, selectedNationId]);
+
+  useEffect(() => {
     if (!selectedNationId) return;
     void loadNationProfile(selectedNationId);
   }, [selectedNationId]);
@@ -63,7 +72,8 @@ function PeopleListPage() {
       const items = await getNations();
       setNations(items);
       if (items.length > 0 && !selectedNationId) {
-        setSelectedNationId(items[0].id);
+        const routeNationExists = routeNationId && items.some((item) => item.id === routeNationId);
+        setSelectedNationId(routeNationExists ? routeNationId : items[0].id);
       }
     } catch (error) {
       setPageError(error instanceof Error ? error.message : 'Ошибка загрузки');
@@ -74,6 +84,8 @@ function PeopleListPage() {
 
   async function loadNationProfile(nationId: string) {
     setIsLoadingProfile(true);
+    setIsLoadingComments(true);
+    setPageError('');
     try {
       const [nation, info, zones, nationCostumes, nationGames, nationComments] = await Promise.all([
         getNationById(nationId),
@@ -94,6 +106,7 @@ function PeopleListPage() {
       setPageError('Не удалось загрузить профиль');
     } finally {
       setIsLoadingProfile(false);
+      setIsLoadingComments(false);
     }
   }
 
@@ -116,13 +129,20 @@ function PeopleListPage() {
       setCommentText('');
       setCommentSuccess('Отправлено');
 
+      setIsLoadingComments(true);
       const refreshed = await getNationComments(selectedNationId);
       setComments(refreshed);
     } catch (error) {
       setCommentError(error instanceof Error ? error.message : 'Не удалось отправить комментарий');
     } finally {
       setIsCommentSubmitting(false);
+      setIsLoadingComments(false);
     }
+  }
+
+  function handleSelectNation(nationId: string) {
+    setSelectedNationId(nationId);
+    navigate(`/peoples/${nationId}`);
   }
 
   function normalizeGender(gender: string) {
@@ -154,10 +174,12 @@ function PeopleListPage() {
           nations={filteredNations}
           isLoading={isLoadingNations}
           selectedNationId={selectedNationId}
-          onSelectNation={setSelectedNationId}
+          onSelectNation={handleSelectNation}
         />
 
         <main className="nation-profile">
+          {pageError && <div className="page-error">{pageError}</div>}
+
           {isLoadingProfile ? (
             <div className="page-loading">Загрузка...</div>
           ) : (
@@ -177,12 +199,15 @@ function PeopleListPage() {
                 <NationGamesSection games={games} />
                 <CommentsSection
                   isAuth={isAuth}
+                  canWriteComment={isAuth}
                   comments={comments}
+                  isLoadingComments={isLoadingComments}
                   onSubmit={handleCommentSubmit}
                   commentText={commentText}
                   onCommentTextChange={setCommentText}
                   commentError={commentError}
                   commentSuccess={commentSuccess}
+                  isCommentSubmitting={isCommentSubmitting}
                 />
               </>
             )

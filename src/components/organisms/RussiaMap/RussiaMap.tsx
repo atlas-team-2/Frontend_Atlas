@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, useCallback, useRef, useState, useEffect } from 'react';
+import { KeyboardEventHandler, useCallback, useRef, useState } from 'react';
 import './RussiaMap.css';
 import TatarstanMap from '../TatarstanMap/TatarstanMap';
 import { SettlementZone } from '@/client/api/nations';

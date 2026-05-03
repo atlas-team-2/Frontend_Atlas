@@ -8,13 +8,18 @@ function ForbiddenPage() {
       <div className="notfound-card">
         <img src={errorLogo} alt="Логотип" className="notfound-logo" />
 
-        <div className="notfound-code">451</div>
-        <h1 className="notfound-title">Не достаточно прав</h1>
-        <p className="notfound-text">Похоже, у вас недостаточно прав.</p>
+        <h1 className="notfound-title">Недостаточно прав</h1>
+        <p className="notfound-text">
+          У вас нет доступа к этой странице. Вернитесь на главную или войдите под аккаунтом с
+          нужными правами.
+        </p>
 
         <div className="notfound-actions">
           <Link to="/" className="notfound-btn primary">
             На главную
+          </Link>
+          <Link to="/auth/login" className="notfound-btn secondary">
+            Войти
           </Link>
         </div>
       </div>
