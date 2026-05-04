@@ -1,4 +1,5 @@
-import { Comment, FormEvent } from 'react';
+import { FormEvent } from 'react';
+import { Comment } from '@/client/api/nations';
 
 interface CommentsSectionProps {
   isAuth: boolean;
