@@ -54,12 +54,8 @@ function LoginPage() {
 
     try {
       await login(email, password);
-<<<<<<< HEAD
-      navigate('/');
-=======
       setRememberedEmail(email, rememberMe);
       navigate('/profile');
->>>>>>> f149402 (the text was aligned, the header was added, the ornament was adjusted, the ornament was played, the offset was removed)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка входа');
     } finally {

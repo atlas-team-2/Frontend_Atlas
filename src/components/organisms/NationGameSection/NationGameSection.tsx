@@ -1,12 +1,12 @@
+import { useState } from 'react';
 import { Game } from '@/client/api/nations';
+import OrnamentGame from '@/components/organisms/OrnamentGame/OrnamentGame';
 
 interface NationGamesSectionProps {
   games: Game[];
 }
 
 function NationGamesSection({ games }: NationGamesSectionProps) {
-<<<<<<< HEAD
-=======
   const [activeGameType, setActiveGameType] = useState<string | null>(null);
   const [notice, setNotice] = useState('');
 
@@ -40,7 +40,6 @@ function NationGamesSection({ games }: NationGamesSectionProps) {
     );
   }
 
->>>>>>> f149402 (the text was aligned, the header was added, the ornament was adjusted, the ornament was played, the offset was removed)
   return (
     <section className="nation-section">
       <div className="nation-section__header">
@@ -55,23 +54,17 @@ function NationGamesSection({ games }: NationGamesSectionProps) {
             {games.length > 0 ? (
               games.map((game) => (
                 <div key={game.id} className="game-card">
-<<<<<<< HEAD
-                  <div className="game-card__icon">🎮</div>
-=======
                   <div className="game-card__icon">
                     {game.type === 'dish' && '🍲'}
                     {game.type === 'holiday' && '🎉'}
                     {game.type === 'ornament' && '🪬'}
                   </div>
 
->>>>>>> f149402 (the text was aligned, the header was added, the ornament was adjusted, the ornament was played, the offset was removed)
                   <h3 className="game-card__title">{game.title}</h3>
+
                   <p className="game-card__text">
                     {game.description || 'Интерактивная игра по культуре народа'}
                   </p>
-<<<<<<< HEAD
-                  <button className="game-card__button">Играть</button>
-=======
 
                   <button
                     type="button"
@@ -80,38 +73,10 @@ function NationGamesSection({ games }: NationGamesSectionProps) {
                   >
                     {game.type === 'ornament' ? 'Играть' : 'Скоро'}
                   </button>
->>>>>>> f149402 (the text was aligned, the header was added, the ornament was adjusted, the ornament was played, the offset was removed)
                 </div>
               ))
             ) : (
-              <>
-                <div className="game-card">
-                  <div className="game-card__icon">🍲</div>
-                  <h3 className="game-card__title">Угадай блюдо</h3>
-                  <p className="game-card__text">Скоро будет доступно</p>
-                  <button className="game-card__button" disabled>
-                    Скоро
-                  </button>
-                </div>
-
-                <div className="game-card">
-                  <div className="game-card__icon">🎉</div>
-                  <h3 className="game-card__title">Угадай праздник</h3>
-                  <p className="game-card__text">Скоро будет доступно</p>
-                  <button className="game-card__button" disabled>
-                    Скоро
-                  </button>
-                </div>
-
-                <div className="game-card">
-                  <div className="game-card__icon">✳️</div>
-                  <h3 className="game-card__title">Угадай орнамент</h3>
-                  <p className="game-card__text">Скоро будет доступно</p>
-                  <button className="game-card__button" disabled>
-                    Скоро
-                  </button>
-                </div>
-              </>
+              <p>Игры для этого народа пока не добавлены.</p>
             )}
           </div>
         </div>
