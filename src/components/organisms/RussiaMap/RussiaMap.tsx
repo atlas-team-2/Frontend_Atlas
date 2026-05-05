@@ -147,7 +147,7 @@ const RussiaMap = ({ onTatarstanClick, isActive = false, zones = [] }: RussiaMap
         >
           {isProfile ? (
             <div className="tatarstan-svg-container" style={{ width: '100%', height: '100%' }}>
-              <TatarstanMap activeRegions={activeRegionIds} activeColor={activeColor} />
+              <TatarstanMap highlightedRegions={activeRegionIds} highlightColor={activeColor} />
             </div>
           ) : (
             <img

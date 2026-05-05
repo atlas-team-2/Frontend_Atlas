@@ -1,4 +1,34 @@
-import { Nation, NationDetails, Comment } from './nations';
+import { Nation, NationDetails, Comment, Game } from './nations';
+
+const createMockGames = (nationId: string): Game[] => [
+  {
+    id: `${nationId}-dish-game`,
+    nation_id: nationId,
+    type: 'dish',
+    title: 'Угадай блюдо',
+    description: 'Игра по национальной кухне народа',
+    is_active: false,
+    status: 'published',
+  },
+  {
+    id: `${nationId}-holiday-game`,
+    nation_id: nationId,
+    type: 'holiday',
+    title: 'Угадай праздник',
+    description: 'Игра по народным праздникам и традициям',
+    is_active: false,
+    status: 'published',
+  },
+  {
+    id: `${nationId}-ornament-game`,
+    nation_id: nationId,
+    type: 'ornament',
+    title: 'Угадай орнамент',
+    description: 'Игра на распознавание национального орнамента',
+    is_active: true,
+    status: 'published',
+  },
+];
 
 export const MOCK_NATIONS: Nation[] = [
   {
@@ -56,20 +86,17 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
       {
         id: 'z1',
         nation_id: 'tatar',
-        region_name: 'Республика Татарстан',
+        region_name: 'Казань, центральные районы и Закамье',
         polygon_data: { regionId: 'tatar_zone' },
         color: '#2e7d32',
         status: 'published',
       },
     ],
     costumes: [],
-    games: [
-      { id: 'g1', nation_id: 'chuvash', title: 'Угадай блюдо' },
-      { id: 'g2', nation_id: 'chuvash', title: 'Угадай праздник' },
-      { id: 'g3', nation_id: 'chuvash', title: 'Угадай орнамент' },
-    ],
+    games: createMockGames('tatar'),
     comments_count: 1,
   },
+
   russian: {
     id: 'russian',
     name: 'Русские',
@@ -90,20 +117,17 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
       {
         id: 'z2',
         nation_id: 'russian',
-        region_name: 'Поволжье и Центр',
-        polygon_data: { regionId: 'east_zone' },
+        region_name: 'Казанская агломерация и Предволжье',
+        polygon_data: { regionId: 'west_zone' },
         color: '#1565c0',
         status: 'published',
       },
     ],
     costumes: [],
-    games: [
-      { id: 'g4', nation_id: 'chuvash', title: 'Угадай блюдо' },
-      { id: 'g5', nation_id: 'chuvash', title: 'Угадай праздник' },
-      { id: 'g6', nation_id: 'chuvash', title: 'Угадай орнамент' },
-    ],
+    games: createMockGames('russian'),
     comments_count: 0,
   },
+
   bashkir: {
     id: 'bashkir',
     name: 'Башкиры',
@@ -124,20 +148,17 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
       {
         id: 'z3',
         nation_id: 'bashkir',
-        region_name: 'Приуралье',
+        region_name: 'Восточные и юго-восточные районы Татарстана',
         polygon_data: { regionId: 'east_zone' },
         color: '#d87d2d',
         status: 'published',
       },
     ],
     costumes: [],
-    games: [
-      { id: 'g7', nation_id: 'chuvash', title: 'Угадай блюдо' },
-      { id: 'g8', nation_id: 'chuvash', title: 'Угадай праздник' },
-      { id: 'g9', nation_id: 'chuvash', title: 'Угадай орнамент' },
-    ],
+    games: createMockGames('bashkir'),
     comments_count: 0,
   },
+
   chuvash: {
     id: 'chuvash',
     name: 'Чуваши',
@@ -159,17 +180,13 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
         id: 'z4',
         nation_id: 'chuvash',
         region_name: 'Предволжье',
-        polygon_data: { regionId: 'tatar_zone' },
+        polygon_data: { regionId: 'predvolzhye' },
         color: '#c62828',
         status: 'published',
       },
     ],
     costumes: [],
-    games: [
-      { id: 'g10', nation_id: 'chuvash', title: 'Угадай блюдо' },
-      { id: 'g11', nation_id: 'chuvash', title: 'Угадай праздник' },
-      { id: 'g12', nation_id: 'chuvash', title: 'Угадай орнамент' },
-    ],
+    games: createMockGames('chuvash'),
     comments_count: 0,
   },
 };
