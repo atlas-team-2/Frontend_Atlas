@@ -36,7 +36,7 @@ export const MOCK_NATIONS: Nation[] = [
     name: 'Татары',
     slug: 'tatar',
     population: 5310649,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
   },
   {
@@ -44,7 +44,7 @@ export const MOCK_NATIONS: Nation[] = [
     name: 'Русские',
     slug: 'russian',
     population: 111016896,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
   },
   {
@@ -52,7 +52,7 @@ export const MOCK_NATIONS: Nation[] = [
     name: 'Башкиры',
     slug: 'bashkir',
     population: 1584554,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
   },
   {
@@ -60,7 +60,7 @@ export const MOCK_NATIONS: Nation[] = [
     name: 'Чуваши',
     slug: 'chuvash',
     population: 1435872,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
   },
 ];
@@ -71,7 +71,7 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
     name: 'Татары',
     slug: 'tatar',
     population: 5310649,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
     info: {
       nation_id: 'tatar',
@@ -102,7 +102,7 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
     name: 'Русские',
     slug: 'russian',
     population: 111016896,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
     info: {
       nation_id: 'russian',
@@ -133,7 +133,7 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
     name: 'Башкиры',
     slug: 'bashkir',
     population: 1584554,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
     info: {
       nation_id: 'bashkir',
@@ -164,7 +164,7 @@ export const MOCK_NATION_DETAILS: Record<string, NationDetails> = {
     name: 'Чуваши',
     slug: 'chuvash',
     population: 1435872,
-    image_url: '/tatarstan-map.png',
+    image_url: '/tatarstan-map.webp',
     status: 'published',
     info: {
       nation_id: 'chuvash',

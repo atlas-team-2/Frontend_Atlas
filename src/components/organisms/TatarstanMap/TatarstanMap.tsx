@@ -45,7 +45,7 @@ interface Props {
   title?: string;
 }
 
-const mapImage = '/tatarstan-map.png';
+const mapImage = '/tatarstan-map.webp';
 
 const REGIONS: RegionInfo[] = [
   {

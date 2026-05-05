@@ -11,13 +11,13 @@ interface NationInfoSectionProps {
 }
 
 const COSTUME_IMAGES_MAP: Record<string, { photo1: string; photo2: string }> = {
-  russian: { photo1: '/russ-costume1.jpg', photo2: '/russ-costume2.jpg' },
-  bashkir: { photo1: '/bashkir-costume1.jpg', photo2: '/bashkir-costume2.jpg' },
-  tatar: { photo1: '/tatar-costume1.jpg', photo2: '/tatar-costume2.jpg' },
-  chuvash: { photo1: '/chuvash-costume1.jpg', photo2: '/chuvash-costume2.jpg' },
-  udmurt: { photo1: '/udmurt-costume1.jpg', photo2: '/udmurt-costume2.jpg' },
-  mordva: { photo1: '/mordva-costume1.jpg', photo2: '/mordva-costume2.jpg' },
-  mari: { photo1: '/mari-costume1.jpg', photo2: '/mari-costume2.jpg' },
+  russian: { photo1: '/russ-costume1.webp', photo2: '/russ-costume2.webp' },
+  bashkir: { photo1: '/bashkir-costume1.webp', photo2: '/bashkir-costume2.webp' },
+  tatar: { photo1: '/tatar-costume1.webp', photo2: '/tatar-costume2.webp' },
+  chuvash: { photo1: '/chuvash-costume1.webp', photo2: '/chuvash-costume2.webp' },
+  udmurt: { photo1: '/udmurt-costume1.webp', photo2: '/udmurt-costume2.webp' },
+  mordva: { photo1: '/mordva-costume1.webp', photo2: '/mordva-costume2.webp' },
+  mari: { photo1: '/mari-costume1.webp', photo2: '/mari-costume2.webp' },
 };
 
 function findCostumeImages(slug: string): { photo1: string; photo2: string } {
@@ -138,6 +138,7 @@ function NationInfoSection({
                     loading="lazy"
                     width={400}
                     height={533}
+                    decoding="async"
                   />
                 ) : (
                   <div className="costume-item__placeholder">Нет фото 1</div>
@@ -150,6 +151,7 @@ function NationInfoSection({
                     src={secondImgSrc}
                     alt={`Костюм 2 — ${nationInfo.self_name}`}
                     loading="lazy"
+                    decoding="async"
                     width={400}
                     height={533}
                   />

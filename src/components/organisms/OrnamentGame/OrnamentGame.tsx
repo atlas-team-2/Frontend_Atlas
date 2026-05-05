@@ -97,6 +97,10 @@ function OrnamentGame() {
               className="ornament-game__image"
               src={question.imageUrl}
               alt="Изображение орнамента"
+              width={420}
+              height={280}
+              loading="lazy"
+              decoding="async"
             />
           </div>
         )}

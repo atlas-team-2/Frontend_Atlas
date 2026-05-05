@@ -15,7 +15,7 @@ export interface OrnamentGameQuestion {
 export const ORNAMENT_GAME_QUESTIONS: OrnamentGameQuestion[] = [
   {
     id: 'ornament-q1',
-    imageUrl: '/tatar-flower1.png',
+    imageUrl: '/tatar-flower1.webp',
     question: 'Какой мотив чаще всего используется в татарском орнаменте?',
     explanation:
       'В татарском орнаменте часто встречаются растительные мотивы: цветы, листья, бутоны и завитки.',
@@ -44,7 +44,7 @@ export const ORNAMENT_GAME_QUESTIONS: OrnamentGameQuestion[] = [
   },
   {
     id: 'ornament-q2',
-    imageUrl: '/tatar-tulip1.png',
+    imageUrl: '/tatar-tulip1.webp',
     question: 'Какой цветок часто встречается в татарских узорах?',
     explanation:
       'Тюльпан — один из узнаваемых растительных образов в татарском декоративном искусстве.',
@@ -73,7 +73,7 @@ export const ORNAMENT_GAME_QUESTIONS: OrnamentGameQuestion[] = [
   },
   {
     id: 'ornament-q3',
-    imageUrl: '/tatar-symmetry1.png',
+    imageUrl: '/tatar-symmetry1.webp',
     question: 'Что характерно для национального орнамента?',
     explanation: 'Для орнамента часто характерны повторяемость, ритм, симметрия и декоративность.',
     options: [
