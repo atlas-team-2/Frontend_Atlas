@@ -12,25 +12,50 @@ const features = [
   { icon: '🎮', text: 'Мини-игры: Угадай блюдо, Угадай праздник' },
 ];
 
+const REMEMBER_EMAIL_KEY = 'atlas_remembered_email';
+
+function getRememberedEmail() {
+  try {
+    return localStorage.getItem(REMEMBER_EMAIL_KEY) || '';
+  } catch {
+    return '';
+  }
+}
+
+function setRememberedEmail(email: string, shouldRemember: boolean) {
+  try {
+    if (shouldRemember) {
+      localStorage.setItem(REMEMBER_EMAIL_KEY, email);
+    } else {
+      localStorage.removeItem(REMEMBER_EMAIL_KEY);
+    }
+  } catch {}
+}
+
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
+  const rememberedEmail = getRememberedEmail();
+
+  const [email, setEmail] = useState(rememberedEmail);
   const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const [rememberMe, setRememberMe] = useState(Boolean(rememberedEmail));
   const [showMap, setShowMap] = useState(false);
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [authNotice, setAuthNotice] = useState('');
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError('');
+    setAuthNotice('');
     setIsSubmitting(true);
 
     try {
       await login(email, password);
-      navigate('/');
+      setRememberedEmail(email, rememberMe);
+      navigate('/profile');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка входа');
     } finally {
@@ -41,6 +66,12 @@ function LoginPage() {
   const handleTatarstanClick = () => {
     setShowMap(true);
     window.setTimeout(() => setShowMap(false), 2000);
+  };
+
+  const handleForgotPassword = () => {
+    setAuthNotice(
+      'Восстановление пароля пока находится в разработке. Обратитесь к администратору платформы.'
+    );
   };
 
   return (
@@ -132,6 +163,7 @@ function LoginPage() {
             </motion.div>
 
             {error && <p className="auth-error">{error}</p>}
+            {authNotice && <p className="auth-info">{authNotice}</p>}
 
             <motion.div
               className="form-options"
@@ -149,7 +181,7 @@ function LoginPage() {
                 <span>Запомнить меня</span>
               </label>
 
-              <button type="button" className="text-link-button">
+              <button type="button" className="text-link-button" onClick={handleForgotPassword}>
                 Забыли пароль?
               </button>
             </motion.div>

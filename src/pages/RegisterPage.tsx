@@ -109,7 +109,11 @@ function RegisterPage() {
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.6, delay: 0.2 }}
       >
-        <div className="form-card">
+        <div className="form-card form-card--ornament">
+          <span className="ornament ornament--tl" />
+          <span className="ornament ornament--tr" />
+          <span className="ornament ornament--bl" />
+          <span className="ornament ornament--br" />
           <div className="form-header">
             <motion.h2
               className="form-title"

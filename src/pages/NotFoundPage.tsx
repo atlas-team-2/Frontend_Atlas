@@ -8,7 +8,7 @@ function NotFoundPage() {
       <div className="notfound-card">
         <img src={errorLogo} alt="Логотип" className="notfound-logo" />
 
-        <div className="notfound-code">404</div>
+        <div className="notfound-code"></div>
         <h1 className="notfound-title">Страница не найдена</h1>
         <p className="notfound-text">Похоже, такой страницы нет или ссылка устарела.</p>
 

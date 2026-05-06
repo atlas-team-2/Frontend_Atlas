@@ -11,24 +11,45 @@ interface NationInfoSectionProps {
 }
 
 const COSTUME_IMAGES_MAP: Record<string, { photo1: string; photo2: string }> = {
-  russian: { photo1: '/russ-costume1.jpg', photo2: '/russ-costume2.jpg' },
-  bashkir: { photo1: '/bashkir-costume1.jpg', photo2: '/bashkir-costume2.jpg' },
-  tatar: { photo1: '/tatar-costume1.jpg', photo2: '/tatar-costume2.jpg' },
-  chuvash: { photo1: '/chuvash-costume1.jpg', photo2: '/chuvash-costume2.jpg' },
-  udmurt: { photo1: '/udmurt-costume1.jpg', photo2: '/udmurt-costume2.jpg' },
-  mordva: { photo1: '/mordva-costume1.jpg', photo2: '/mordva-costume2.jpg' },
-  mari: { photo1: '/mari-costume1.jpg', photo2: '/mari-costume2.jpg' },
+  russian: { photo1: '/russ-costume1.webp', photo2: '/russ-costume2.webp' },
+  bashkir: { photo1: '/bashkir-costume1.webp', photo2: '/bashkir-costume2.webp' },
+  tatar: { photo1: '/tatar-costume1.webp', photo2: '/tatar-costume2.webp' },
+  chuvash: { photo1: '/chuvash-costume1.webp', photo2: '/chuvash-costume2.webp' },
+  udmurt: { photo1: '/udmurt-costume1.webp', photo2: '/udmurt-costume2.webp' },
+  mordva: { photo1: '/mordva-costume1.webp', photo2: '/mordva-costume2.webp' },
+  mari: { photo1: '/mari-costume1.webp', photo2: '/mari-costume2.webp' },
 };
 
 function findCostumeImages(slug: string): { photo1: string; photo2: string } {
   const images = COSTUME_IMAGES_MAP[slug];
 
   if (!images) {
-    console.warn(`NationInfoSection: Не удалось найти костюмы для slug "${slug}"`);
     return { photo1: '', photo2: '' };
   }
 
   return images;
+}
+
+const SETTLEMENT_REGION_ALIASES: Record<string, string[]> = {
+  tatar_zone: ['kazan-agglomeration', 'central-tatarstan', 'zakamye'],
+  east_zone: ['prikamye', 'zakamye'],
+  west_zone: ['predvolzhye', 'kazan-agglomeration'],
+};
+
+function getSettlementRegionIds(zones: SettlementZone[]) {
+  return Array.from(
+    new Set(
+      zones.flatMap((zone) => {
+        const regionId = zone.polygon_data?.regionId;
+
+        if (typeof regionId !== 'string') {
+          return [];
+        }
+
+        return SETTLEMENT_REGION_ALIASES[regionId] || [regionId];
+      })
+    )
+  );
 }
 
 function NationInfoSection({
@@ -42,6 +63,8 @@ function NationInfoSection({
 
   const firstImgSrc = maleCostume?.image_url || staticImages.photo1;
   const secondImgSrc = femaleCostume?.image_url || staticImages.photo2;
+  const highlightedRegionIds = getSettlementRegionIds(settlementZones);
+  const highlightColor = settlementZones[0]?.color || undefined;
 
   return (
     <div className="nation-info-section">
@@ -55,8 +78,9 @@ function NationInfoSection({
 
         <div className="nation-section__content">
           <TatarstanMap
-            highlightedRegions={settlementZones.map((z) => z.id)}
-            title="Интерактивная карта Татарстана"
+            highlightedRegions={highlightedRegionIds}
+            highlightColor={highlightColor}
+            title={`Карта расселения: ${nation.name}`}
           />
         </div>
       </section>
@@ -114,9 +138,7 @@ function NationInfoSection({
                     loading="lazy"
                     width={400}
                     height={533}
-                    onError={() =>
-                      console.error(`Ошибка 404: Файл не найден по пути: ${firstImgSrc}`)
-                    }
+                    decoding="async"
                   />
                 ) : (
                   <div className="costume-item__placeholder">Нет фото 1</div>
@@ -129,11 +151,9 @@ function NationInfoSection({
                     src={secondImgSrc}
                     alt={`Костюм 2 — ${nationInfo.self_name}`}
                     loading="lazy"
+                    decoding="async"
                     width={400}
                     height={533}
-                    onError={() =>
-                      console.error(`Ошибка 404: Файл не найден по пути: ${secondImgSrc}`)
-                    }
                   />
                 ) : (
                   <div className="costume-item__placeholder">Нет фото 2</div>

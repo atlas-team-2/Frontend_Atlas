@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, useCallback, useRef, useState, useEffect } from 'react';
+import { KeyboardEventHandler, useCallback, useRef, useState } from 'react';
 import './RussiaMap.css';
 import TatarstanMap from '../TatarstanMap/TatarstanMap';
 import { SettlementZone } from '@/client/api/nations';
@@ -73,7 +73,7 @@ const RussiaMap = ({ onTatarstanClick, isActive = false, zones = [] }: RussiaMap
           }}
         >
           <img
-            src="/russia-map-photo.png"
+            src="/russia-map-photo.webp"
             alt="Карта России"
             className="russia-map-image"
             draggable={false}
@@ -147,11 +147,11 @@ const RussiaMap = ({ onTatarstanClick, isActive = false, zones = [] }: RussiaMap
         >
           {isProfile ? (
             <div className="tatarstan-svg-container" style={{ width: '100%', height: '100%' }}>
-              <TatarstanMap activeRegions={activeRegionIds} activeColor={activeColor} />
+              <TatarstanMap highlightedRegions={activeRegionIds} highlightColor={activeColor} />
             </div>
           ) : (
             <img
-              src="/tatarstan-map.png"
+              src="/tatarstan-map.webp"
               alt="Карта Татарстана"
               className="tatarstan-detail-image"
               style={{ width: '100%', height: '100%', objectFit: 'contain' }}

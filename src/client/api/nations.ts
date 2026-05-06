@@ -233,6 +233,9 @@ export async function createNationComment(
       created_at: new Date().toISOString(),
       status: 'approved',
     };
+
+    MOCK_COMMENTS[nationId] = [newComment, ...(MOCK_COMMENTS[nationId] || [])];
+
     return Promise.resolve(newComment);
   }
 

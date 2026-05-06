@@ -288,6 +288,21 @@
   box-shadow: 0 12px 30px var(--color-shadow-brown-08);
 }
 
+.home-map-wrapper {
+  width: 100%;
+  min-height: 420px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 22px;
+  background: linear-gradient(180deg, var(--color-bg-map) 0%, var(--color-bg-surface-warm) 100%);
+}
+
+.home-map-wrapper .russia-map-scene {
+  width: min(100%, 720px);
+}
+
 .map-auth-section__map-placeholder {
   min-height: 420px;
   border-radius: 22px;
@@ -406,6 +421,21 @@
   }
 
   .hero-section__visual-card,
+  .home-map-wrapper {
+    width: 100%;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 22px;
+    background: linear-gradient(180deg, var(--color-bg-map) 0%, var(--color-bg-surface-warm) 100%);
+  }
+
+  .home-map-wrapper .russia-map-scene {
+    width: min(100%, 720px);
+  }
+
   .map-auth-section__map-placeholder {
     min-height: 300px;
   }

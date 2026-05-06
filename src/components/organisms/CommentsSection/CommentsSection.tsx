@@ -1,9 +1,11 @@
-import { Comment, FormEvent } from 'react';
+import { FormEvent } from 'react';
+import { Comment } from '@/client/api/nations';
 
 interface CommentsSectionProps {
   isAuth: boolean;
   canWriteComment: boolean;
   comments: Comment[];
+  isLoadingComments: boolean;
   commentText: string;
   onCommentTextChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -16,6 +18,7 @@ function CommentsSection({
   isAuth,
   canWriteComment,
   comments,
+  isLoadingComments,
   commentText,
   onCommentTextChange,
   onSubmit,
@@ -38,6 +41,7 @@ function CommentsSection({
                 placeholder="Поделитесь впечатлениями или историей..."
                 value={commentText}
                 onChange={(e) => onCommentTextChange(e.target.value)}
+                disabled={isCommentSubmitting}
               />
 
               {commentError && <p className="comments-block__error">{commentError}</p>}
@@ -63,7 +67,9 @@ function CommentsSection({
           )}
 
           <div className="comments-list">
-            {comments.length > 0 ? (
+            {isLoadingComments ? (
+              <div className="comments-loading">Загружаем комментарии...</div>
+            ) : comments.length > 0 ? (
               comments.map((comment) => (
                 <div key={comment.id} className="comment-card">
                   <div className="comment-card__header">
