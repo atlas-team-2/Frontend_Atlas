@@ -1,4 +1,5 @@
 import { NationInfo } from '@/client/api/nations';
+import NationBadge from '@/components/moleculs/NationBadge/NationBadge';
 
 interface NationHeroProps {
   nation: {
@@ -14,20 +15,9 @@ function NationHero({ nation, nationInfo }: NationHeroProps) {
       <p className="nation-profile__subtitle">Самоназвание: {nationInfo.self_name || '—'}</p>
 
       <div className="nation-profile__badges">
-        <div className="nation-badge">
-          <span className="nation-badge__label">Язык</span>
-          <span className="nation-badge__value">{nationInfo.language || '—'}</span>
-        </div>
-
-        <div className="nation-badge">
-          <span className="nation-badge__label">Религия</span>
-          <span className="nation-badge__value">{nationInfo.religion || '—'}</span>
-        </div>
-
-        <div className="nation-badge">
-          <span className="nation-badge__label">Происхождение</span>
-          <span className="nation-badge__value">{nationInfo.origin || '—'}</span>
-        </div>
+        <NationBadge label="Язык" value={nationInfo.language} />
+        <NationBadge label="Религия" value={nationInfo.religion} />
+        <NationBadge label="Происхождение" value={nationInfo.origin} />
       </div>
     </section>
   );

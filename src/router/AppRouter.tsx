@@ -7,7 +7,7 @@ import AdminComments from '@/pages/admin/AdminComments';
 import AdminDashboard from '@/pages/admin/AdminDashboard';
 import PrivateRoute from '@/router/PrivateRoute';
 import ScopeGuard from '@/router/ScopeGuard';
-import MainLayout from '@/layouts/MainLayout';
+import MainLayout from '@/components/templates/MainLayout/MainLayout';
 import { useAuth } from '@/hooks/useAuth';
 import NotFoundPage from '@/pages/NotFoundPage';
 import ForbiddenPage from '@/pages/ForbiddenPage';

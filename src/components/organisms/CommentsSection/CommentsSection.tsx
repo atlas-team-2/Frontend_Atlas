@@ -1,5 +1,9 @@
 import { FormEvent } from 'react';
 import { Comment } from '@/client/api/nations';
+import Loader from '@/components/atoms/Loader/Loader';
+import EmptyState from '@/components/atoms/EmptyState/EmptyState';
+import CommentCard from '@/components/moleculs/CommentCard/CommentCard';
+import CommentForm from '@/components/moleculs/CommentForm/CommentForm';
 
 interface CommentsSectionProps {
   isAuth: boolean;
@@ -35,31 +39,14 @@ function CommentsSection({
       <div className="nation-section__content">
         <div className="comments-block">
           {isAuth && canWriteComment ? (
-            <form className="comments-block__form" onSubmit={onSubmit}>
-              <textarea
-                className="comments-block__textarea"
-                placeholder="Поделитесь впечатлениями или историей..."
-                value={commentText}
-                onChange={(e) => onCommentTextChange(e.target.value)}
-                disabled={isCommentSubmitting}
-              />
-
-              {commentError && <p className="comments-block__error">{commentError}</p>}
-              {commentSuccess && <p className="comments-block__success">{commentSuccess}</p>}
-
-              <div className="comments-block__actions">
-                <p className="comments-block__hint">
-                  Комментарий будет опубликован после модерации
-                </p>
-                <button
-                  className="comments-block__submit"
-                  type="submit"
-                  disabled={isCommentSubmitting}
-                >
-                  {isCommentSubmitting ? 'Отправка...' : 'Отправить'}
-                </button>
-              </div>
-            </form>
+            <CommentForm
+              commentText={commentText}
+              onCommentTextChange={onCommentTextChange}
+              onSubmit={onSubmit}
+              commentError={commentError}
+              commentSuccess={commentSuccess}
+              isCommentSubmitting={isCommentSubmitting}
+            />
           ) : (
             <div className="comments-block__login-note">
               Войдите в аккаунт, чтобы оставить комментарий.
@@ -68,31 +55,14 @@ function CommentsSection({
 
           <div className="comments-list">
             {isLoadingComments ? (
-              <div className="comments-loading">Загружаем комментарии...</div>
+              <Loader text="Загружаем комментарии..." className="comments-loading" />
             ) : comments.length > 0 ? (
-              comments.map((comment) => (
-                <div key={comment.id} className="comment-card">
-                  <div className="comment-card__header">
-                    <span className="comment-card__author">Пользователь</span>
-                    <span className="comment-card__date">
-                      {new Date(comment.created_at).toLocaleDateString('ru-RU')}
-                    </span>
-                  </div>
-                  <p className="comment-card__text">{comment.text}</p>
-                  <span className="comment-card__status">
-                    {comment.status === 'approved'
-                      ? 'Опубликовано'
-                      : comment.status === 'pending'
-                        ? 'На модерации'
-                        : comment.status}
-                  </span>
-                </div>
-              ))
+              comments.map((comment) => <CommentCard key={comment.id} comment={comment} />)
             ) : (
-              <div className="page-empty">
-                <h3 className="page-empty__title">Комментариев пока нет</h3>
-                <p className="page-empty__text">Станьте первым, кто поделится впечатлениями.</p>
-              </div>
+              <EmptyState
+                title="Комментариев пока нет"
+                text="Станьте первым, кто поделится впечатлениями."
+              />
             )}
           </div>
         </div>

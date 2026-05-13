@@ -1,5 +1,7 @@
 import { Costume, NationDetails, NationInfo, SettlementZone } from '@/client/api/nations';
-import TatarstanMap from '../TatarstanMap/TatarstanMap';
+import TatarstanMap from '@/components/organisms/TatarstanMap/TatarstanMap';
+import NationInfoCard from '@/components/moleculs/NationInfoCard/NationInfoCard';
+import CostumeCard from '@/components/moleculs/CostumeCard/CostumeCard';
 import './NationInfoSection.css';
 
 interface NationInfoSectionProps {
@@ -93,30 +95,15 @@ function NationInfoSection({
         <div className="nation-section__content">
           <div className="nation-info">
             <div className="nation-info__grid">
-              <div className="nation-info__card">
-                <div className="nation-info__label">Происхождение</div>
-                <div className="nation-info__value">{nationInfo.origin || '—'}</div>
-              </div>
-
-              <div className="nation-info__card">
-                <div className="nation-info__label">Самоназвание</div>
-                <div className="nation-info__value">{nationInfo.self_name || '—'}</div>
-              </div>
-
-              <div className="nation-info__card">
-                <div className="nation-info__label">Язык</div>
-                <div className="nation-info__value">{nationInfo.language || '—'}</div>
-              </div>
-
-              <div className="nation-info__card">
-                <div className="nation-info__label">Религия</div>
-                <div className="nation-info__value">{nationInfo.religion || '—'}</div>
-              </div>
-
-              <div className="nation-info__card nation-info__card--wide">
-                <div className="nation-info__label">Интересные факты</div>
-                <div className="nation-info__value">{nationInfo.facts || 'Нет данных'}</div>
-              </div>
+              <NationInfoCard label="Происхождение" value={nationInfo.origin} />
+              <NationInfoCard label="Самоназвание" value={nationInfo.self_name} />
+              <NationInfoCard label="Язык" value={nationInfo.language} />
+              <NationInfoCard label="Религия" value={nationInfo.religion} />
+              <NationInfoCard
+                label="Интересные факты"
+                value={nationInfo.facts || 'Нет данных'}
+                isWide
+              />
             </div>
           </div>
         </div>
@@ -130,35 +117,17 @@ function NationInfoSection({
         <div className="nation-section__content">
           <div className="costumes-unified-card">
             <div className="costumes-unified-card__display">
-              <div className="costume-item">
-                {firstImgSrc ? (
-                  <img
-                    src={firstImgSrc}
-                    alt={`Костюм 1 — ${nationInfo.self_name}`}
-                    loading="lazy"
-                    width={400}
-                    height={533}
-                    decoding="async"
-                  />
-                ) : (
-                  <div className="costume-item__placeholder">Нет фото 1</div>
-                )}
-              </div>
+              <CostumeCard
+                imageSrc={firstImgSrc}
+                alt={`Костюм 1 — ${nationInfo.self_name}`}
+                placeholder="Нет фото 1"
+              />
 
-              <div className="costume-item">
-                {secondImgSrc ? (
-                  <img
-                    src={secondImgSrc}
-                    alt={`Костюм 2 — ${nationInfo.self_name}`}
-                    loading="lazy"
-                    decoding="async"
-                    width={400}
-                    height={533}
-                  />
-                ) : (
-                  <div className="costume-item__placeholder">Нет фото 2</div>
-                )}
-              </div>
+              <CostumeCard
+                imageSrc={secondImgSrc}
+                alt={`Костюм 2 — ${nationInfo.self_name}`}
+                placeholder="Нет фото 2"
+              />
             </div>
           </div>
         </div>
