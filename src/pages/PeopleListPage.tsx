@@ -8,6 +8,8 @@ import NationHero from '@/components/organisms/NationHero/NationHero';
 import NationGamesSection from '@/components/organisms/NationGameSection/NationGameSection';
 import CommentsSection from '@/components/organisms/CommentsSection/CommentsSection';
 import NationInfoSection from '@/components/organisms/NationInfoSection/NationInfoSection';
+import Loader from '@/components/atoms/Loader/Loader';
+import PageError from '@/components/atoms/PageError/PageError';
 
 function PeopleListPage() {
   const { isAuth } = useAuth();
@@ -60,10 +62,10 @@ function PeopleListPage() {
         />
 
         <main className="nation-profile">
-          {pageError && <div className="page-error">{pageError}</div>}
+          <PageError message={pageError} />
 
           {isLoadingProfile ? (
-            <div className="page-loading">Загрузка...</div>
+            <Loader />
           ) : (
             selectedNation &&
             nationInfo && (

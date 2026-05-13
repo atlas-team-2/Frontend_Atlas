@@ -1,4 +1,7 @@
 import { Nation } from '@/client/api/nations';
+import Loader from '@/components/atoms/Loader/Loader';
+import NationSearch from '@/components/moleculs/NationSearch/NationSearch';
+import NationListItem from '@/components/moleculs/NationListItem/NationListItem';
 
 interface NationsSidebarProps {
   search: string;
@@ -26,33 +29,19 @@ function NationsSidebar({
         </p>
       </div>
 
-      <div className="nations-sidebar__search">
-        <input
-          className="nations-sidebar__search-input"
-          type="text"
-          placeholder="Поиск народа..."
-          value={search}
-          onChange={(e) => onSearchChange(e.target.value)}
-        />
-      </div>
+      <NationSearch value={search} onChange={onSearchChange} />
 
       {isLoading ? (
-        <div className="page-loading">Загрузка списка народов...</div>
+        <Loader text="Загрузка списка народов..." />
       ) : (
         <div className="nations-sidebar__list">
           {nations.map((nation) => (
-            <button
+            <NationListItem
               key={nation.id}
-              className={
-                selectedNationId === nation.id
-                  ? 'nations-sidebar__item nations-sidebar__item--active'
-                  : 'nations-sidebar__item'
-              }
-              onClick={() => onSelectNation(nation.id)}
-            >
-              <span className="nations-sidebar__item-name">{nation.name}</span>
-              <span className="nations-sidebar__item-meta">{nation.slug}</span>
-            </button>
+              nation={nation}
+              isActive={selectedNationId === nation.id}
+              onSelect={onSelectNation}
+            />
           ))}
         </div>
       )}

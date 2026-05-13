@@ -3,6 +3,7 @@ import { Game } from '@/client/api/nations';
 import DishGame from '@/components/organisms/DishGame/DishGame';
 import HolidayGame from '@/components/organisms/HolidayGame/HolidayGame';
 import OrnamentGame from '@/components/organisms/OrnamentGame/OrnamentGame';
+import GameCard from '@/components/moleculs/GameCard/GameCard';
 
 interface NationGamesSectionProps {
   games: Game[];
@@ -73,29 +74,15 @@ function NationGamesSection({ games }: NationGamesSectionProps) {
 
           <div className="games-block__grid">
             {games.length > 0 ? (
-              games.map((game) => {
-                const isAvailable = isSupportedGameType(game.type);
-
-                return (
-                  <div key={game.id} className="game-card">
-                    <div className="game-card__icon">{getGameIcon(game.type)}</div>
-
-                    <h3 className="game-card__title">{game.title}</h3>
-
-                    <p className="game-card__text">
-                      {game.description || 'Интерактивная игра по культуре народа'}
-                    </p>
-
-                    <button
-                      type="button"
-                      className="game-card__button"
-                      onClick={() => handleGameClick(game)}
-                    >
-                      {isAvailable ? 'Играть' : 'Скоро'}
-                    </button>
-                  </div>
-                );
-              })
+              games.map((game) => (
+                <GameCard
+                  key={game.id}
+                  game={game}
+                  icon={getGameIcon(game.type)}
+                  isAvailable={isSupportedGameType(game.type)}
+                  onClick={handleGameClick}
+                />
+              ))
             ) : (
               <p>Игры для этого народа пока не добавлены.</p>
             )}
