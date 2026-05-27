@@ -1,4 +1,5 @@
 import { FormEvent } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Comment } from '@/client/api/nations';
 import Loader from '@/components/atoms/Loader/Loader';
 import EmptyState from '@/components/atoms/EmptyState/EmptyState';
@@ -30,6 +31,18 @@ function CommentsSection({
   commentSuccess,
   isCommentSubmitting,
 }: CommentsSectionProps) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLoginRedirect = () => {
+    navigate('/auth/login', {
+      state: {
+        from: location.pathname,
+        reason: 'comment',
+      },
+    });
+  };
+
   return (
     <section className="nation-section">
       <div className="nation-section__header">
@@ -49,7 +62,13 @@ function CommentsSection({
             />
           ) : (
             <div className="comments-block__login-note">
-              Войдите в аккаунт, чтобы оставить комментарий.
+              <button
+                className="comments-block__submit"
+                type="button"
+                onClick={handleLoginRedirect}
+              >
+                Войти, чтобы оставить комментарий
+              </button>
             </div>
           )}
 

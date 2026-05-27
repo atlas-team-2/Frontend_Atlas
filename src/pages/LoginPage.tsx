@@ -1,5 +1,5 @@
 import { useState, FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import AuthLeftPanel from '@/components/organisms/AuthLeftPanel/AuthLeftPanel';
 import './AuthPage.css';
@@ -35,6 +35,9 @@ function setRememberedEmail(email: string, shouldRemember: boolean) {
 function LoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirectAfterLogin = (location.state as { from?: string } | null)?.from || '/profile';
 
   const rememberedEmail = getRememberedEmail();
 
@@ -55,7 +58,7 @@ function LoginPage() {
     try {
       await login(email, password);
       setRememberedEmail(email, rememberMe);
-      navigate('/profile');
+      navigate(redirectAfterLogin);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка входа');
     } finally {

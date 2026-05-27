@@ -462,13 +462,19 @@
 }
 
 .comments-block__submit {
-  border: none;
+  border: 1px solid #3f55a8;
   border-radius: 14px;
-  padding: 12px 18px;
-  background: var(--color-brand-green);
-  color: var(--color-white);
-  font-weight: 600;
+  padding: 12px 22px;
+  background: #4059ad;
+  color: #fff;
+  font-weight: 700;
   cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.comments-block__submit:hover {
+  background: #344891;
+  transform: translateY(-1px);
 }
 
 .comments-block__submit:disabled {
@@ -489,17 +495,17 @@
 }
 
 .comments-block__login-note {
-  padding: 16px;
-  border-radius: 16px;
-  background: var(--color-bg-surface);
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border-light);
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: none;
 }
 
 .comments-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
 }
 .comments-loading {
   padding: 18px;
