@@ -1,5 +1,4 @@
 import { FormEvent } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { Comment } from '@/client/api/nations';
 import Loader from '@/components/atoms/Loader/Loader';
 import EmptyState from '@/components/atoms/EmptyState/EmptyState';
@@ -8,10 +7,11 @@ import CommentForm from '@/components/moleculs/CommentForm/CommentForm';
 
 interface CommentsSectionProps {
   isAuth: boolean;
-  canWriteComment: boolean;
   comments: Comment[];
   isLoadingComments: boolean;
+  authorName: string;
   commentText: string;
+  onAuthorNameChange: (value: string) => void;
   onCommentTextChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   commentError: string;
@@ -21,28 +21,17 @@ interface CommentsSectionProps {
 
 function CommentsSection({
   isAuth,
-  canWriteComment,
   comments,
   isLoadingComments,
+  authorName,
   commentText,
+  onAuthorNameChange,
   onCommentTextChange,
   onSubmit,
   commentError,
   commentSuccess,
   isCommentSubmitting,
 }: CommentsSectionProps) {
-  const navigate = useNavigate();
-  const location = useLocation();
-
-  const handleLoginRedirect = () => {
-    navigate('/auth/login', {
-      state: {
-        from: location.pathname,
-        reason: 'comment',
-      },
-    });
-  };
-
   return (
     <section className="nation-section">
       <div className="nation-section__header">
@@ -51,26 +40,17 @@ function CommentsSection({
 
       <div className="nation-section__content">
         <div className="comments-block">
-          {isAuth && canWriteComment ? (
-            <CommentForm
-              commentText={commentText}
-              onCommentTextChange={onCommentTextChange}
-              onSubmit={onSubmit}
-              commentError={commentError}
-              commentSuccess={commentSuccess}
-              isCommentSubmitting={isCommentSubmitting}
-            />
-          ) : (
-            <div className="comments-block__login-note">
-              <button
-                className="comments-block__submit"
-                type="button"
-                onClick={handleLoginRedirect}
-              >
-                Войти, чтобы оставить комментарий
-              </button>
-            </div>
-          )}
+          <CommentForm
+            isAuth={isAuth}
+            authorName={authorName}
+            commentText={commentText}
+            onAuthorNameChange={onAuthorNameChange}
+            onCommentTextChange={onCommentTextChange}
+            onSubmit={onSubmit}
+            commentError={commentError}
+            commentSuccess={commentSuccess}
+            isCommentSubmitting={isCommentSubmitting}
+          />
 
           <div className="comments-list">
             {isLoadingComments ? (

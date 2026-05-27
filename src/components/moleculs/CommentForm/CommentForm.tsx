@@ -1,7 +1,10 @@
 import { FormEvent } from 'react';
 
 type CommentFormProps = {
+  isAuth: boolean;
+  authorName: string;
   commentText: string;
+  onAuthorNameChange: (value: string) => void;
   onCommentTextChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   commentError: string;
@@ -10,7 +13,10 @@ type CommentFormProps = {
 };
 
 function CommentForm({
+  isAuth,
+  authorName,
   commentText,
+  onAuthorNameChange,
   onCommentTextChange,
   onSubmit,
   commentError,
@@ -19,20 +25,28 @@ function CommentForm({
 }: CommentFormProps) {
   return (
     <form className="comments-block__form" onSubmit={onSubmit}>
+      {!isAuth && (
+        <input
+          className="comments-block__input"
+          type="text"
+          placeholder="Ваше имя"
+          value={authorName}
+          onChange={(event) => onAuthorNameChange(event.target.value)}
+          disabled={isCommentSubmitting}
+        />
+      )}
+
       <textarea
         className="comments-block__textarea"
-        placeholder="Поделитесь впечатлениями или историей..."
+        placeholder="Оставьте комментарий"
         value={commentText}
         onChange={(event) => onCommentTextChange(event.target.value)}
         disabled={isCommentSubmitting}
       />
 
       {commentError && <p className="comments-block__error">{commentError}</p>}
-      {commentSuccess && <p className="comments-block__success">{commentSuccess}</p>}
 
       <div className="comments-block__actions">
-        <p className="comments-block__hint">Комментарий будет опубликован после модерации</p>
-
         <button className="comments-block__submit" type="submit" disabled={isCommentSubmitting}>
           {isCommentSubmitting ? 'Отправка...' : 'Отправить'}
         </button>

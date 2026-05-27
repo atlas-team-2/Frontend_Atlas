@@ -12,9 +12,9 @@ import Loader from '@/components/atoms/Loader/Loader';
 import PageError from '@/components/atoms/PageError/PageError';
 
 function PeopleListPage() {
-  const { isAuth } = useAuth();
   const navigate = useNavigate();
   const { id: routeNationId } = useParams<{ id?: string }>();
+  const { isAuth } = useAuth();
 
   const {
     search,
@@ -35,6 +35,8 @@ function PeopleListPage() {
 
   const {
     comments,
+    authorName,
+    setAuthorName,
     commentText,
     setCommentText,
     commentError,
@@ -42,7 +44,7 @@ function PeopleListPage() {
     isLoadingComments,
     isCommentSubmitting,
     handleCommentSubmit,
-  } = useNationComments(selectedNationId);
+  } = useNationComments(selectedNationId, isAuth);
 
   function handleSelectNation(nationId: string) {
     setSelectedNationId(nationId);
@@ -84,10 +86,11 @@ function PeopleListPage() {
 
                 <CommentsSection
                   isAuth={isAuth}
-                  canWriteComment={isAuth}
                   comments={comments}
                   isLoadingComments={isLoadingComments}
                   onSubmit={handleCommentSubmit}
+                  authorName={authorName}
+                  onAuthorNameChange={setAuthorName}
                   commentText={commentText}
                   onCommentTextChange={setCommentText}
                   commentError={commentError}

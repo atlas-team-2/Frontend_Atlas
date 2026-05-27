@@ -1,9 +1,9 @@
 import { useEffect, useState, type FormEventHandler } from 'react';
 import { Comment, createNationComment, getNationComments } from '@/client/api/nations';
-import { authStorage } from '@/client/api/auth-storage';
 
-export function useNationComments(nationId: string | null) {
+export function useNationComments(nationId: string | null, isAuth: boolean) {
   const [comments, setComments] = useState<Comment[]>([]);
+  const [authorName, setAuthorName] = useState('');
   const [commentText, setCommentText] = useState('');
   const [commentError, setCommentError] = useState('');
   const [commentSuccess, setCommentSuccess] = useState('');
@@ -47,8 +47,15 @@ export function useNationComments(nationId: string | null) {
 
     const currentNationId = nationId;
     const trimmedComment = commentText.trim();
+    const trimmedAuthorName = isAuth ? 'Пользователь' : authorName.trim();
+
+    if (!isAuth && !trimmedAuthorName) {
+      setCommentError('Введите имя');
+      return;
+    }
 
     if (!trimmedComment) {
+      setCommentError('Введите текст комментария');
       return;
     }
 
@@ -57,14 +64,10 @@ export function useNationComments(nationId: string | null) {
     setCommentSuccess('');
 
     try {
-      const token = authStorage.getAccessToken() || undefined;
-
-      await createNationComment(currentNationId, trimmedComment, token);
+      await createNationComment(currentNationId, trimmedComment, trimmedAuthorName);
 
       setCommentText('');
-      setCommentSuccess('Отправлено');
-
-      setIsLoadingComments(true);
+      setCommentSuccess('Комментарий отправлен');
 
       const refreshedComments = await getNationComments(currentNationId);
       setComments(refreshedComments);
@@ -72,12 +75,13 @@ export function useNationComments(nationId: string | null) {
       setCommentError(error instanceof Error ? error.message : 'Не удалось отправить комментарий');
     } finally {
       setIsCommentSubmitting(false);
-      setIsLoadingComments(false);
     }
   };
 
   return {
     comments,
+    authorName,
+    setAuthorName,
     commentText,
     setCommentText,
     commentError,
