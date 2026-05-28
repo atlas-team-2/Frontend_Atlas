@@ -93,6 +93,7 @@ function LoginPage() {
           <span className="ornament ornament--tr" />
           <span className="ornament ornament--bl" />
           <span className="ornament ornament--br" />
+
           <div className="form-header">
             <motion.h2
               className="form-title"

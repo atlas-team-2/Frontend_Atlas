@@ -62,7 +62,8 @@ export interface Game {
 export interface Comment {
   id: string;
   nation_id: string;
-  user_id: string;
+  user_id?: string;
+  author_name?: string;
   text: string;
   created_at: string;
   status: 'pending' | 'approved' | 'rejected' | 'hidden';
@@ -222,13 +223,13 @@ export async function getNationComments(nationId: string): Promise<Comment[]> {
 export async function createNationComment(
   nationId: string,
   text: string,
-  token?: string
+  authorName: string
 ): Promise<Comment> {
   if (USE_MOCKS) {
     const newComment: Comment = {
       id: Math.random().toString(36).substr(2, 9),
       nation_id: nationId,
-      user_id: 'current-user',
+      author_name: authorName,
       text,
       created_at: new Date().toISOString(),
       status: 'approved',
@@ -243,9 +244,11 @@ export async function createNationComment(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
-    body: JSON.stringify({ text }),
+    body: JSON.stringify({
+      text,
+      author_name: authorName,
+    }),
   });
 
   if (!response.ok) {

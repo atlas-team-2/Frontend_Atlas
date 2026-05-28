@@ -17,7 +17,7 @@ function CommentCard({ comment }: CommentCardProps) {
   return (
     <div className="comment-card">
       <div className="comment-card__header">
-        <span className="comment-card__author">Пользователь</span>
+        <span className="comment-card__author">{comment.author_name || 'Пользователь'}</span>
         <span className="comment-card__date">
           {new Date(comment.created_at).toLocaleDateString('ru-RU')}
         </span>

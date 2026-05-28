@@ -7,10 +7,11 @@ import CommentForm from '@/components/moleculs/CommentForm/CommentForm';
 
 interface CommentsSectionProps {
   isAuth: boolean;
-  canWriteComment: boolean;
   comments: Comment[];
   isLoadingComments: boolean;
+  authorName: string;
   commentText: string;
+  onAuthorNameChange: (value: string) => void;
   onCommentTextChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
   commentError: string;
@@ -20,10 +21,11 @@ interface CommentsSectionProps {
 
 function CommentsSection({
   isAuth,
-  canWriteComment,
   comments,
   isLoadingComments,
+  authorName,
   commentText,
+  onAuthorNameChange,
   onCommentTextChange,
   onSubmit,
   commentError,
@@ -38,20 +40,17 @@ function CommentsSection({
 
       <div className="nation-section__content">
         <div className="comments-block">
-          {isAuth && canWriteComment ? (
-            <CommentForm
-              commentText={commentText}
-              onCommentTextChange={onCommentTextChange}
-              onSubmit={onSubmit}
-              commentError={commentError}
-              commentSuccess={commentSuccess}
-              isCommentSubmitting={isCommentSubmitting}
-            />
-          ) : (
-            <div className="comments-block__login-note">
-              Войдите в аккаунт, чтобы оставить комментарий.
-            </div>
-          )}
+          <CommentForm
+            isAuth={isAuth}
+            authorName={authorName}
+            commentText={commentText}
+            onAuthorNameChange={onAuthorNameChange}
+            onCommentTextChange={onCommentTextChange}
+            onSubmit={onSubmit}
+            commentError={commentError}
+            commentSuccess={commentSuccess}
+            isCommentSubmitting={isCommentSubmitting}
+          />
 
           <div className="comments-list">
             {isLoadingComments ? (
