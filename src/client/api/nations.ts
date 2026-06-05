@@ -1,8 +1,19 @@
 import { safeFetch } from '@/client/api/http';
+import { authStorage } from '@/client/api/auth-storage';
 import { MOCK_NATIONS, MOCK_NATION_DETAILS, MOCK_COMMENTS } from './nations.mock';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
-const USE_MOCKS = true;
+const API_URL = process.env.REACT_APP_API_URL || '';
+const USE_NATIONS_MOCKS = process.env.REACT_APP_USE_NATIONS_MOCKS === 'true';
+
+function getAuthHeaders(): HeadersInit {
+  const authHeader = authStorage.getAuthHeader();
+
+  return authHeader
+    ? {
+        Authorization: authHeader,
+      }
+    : {};
+}
 
 export interface Nation {
   id: string;
@@ -72,28 +83,56 @@ export interface Comment {
 
 interface ListResponse<T> {
   items: T[];
-  meta: {
+  meta?: {
     page: number;
     page_size: number;
     total_items: number;
     total_pages: number;
   };
 }
+type ApiErrorDetail = {
+  msg?: string;
+  message?: string;
+};
 
 async function parseError(response: Response): Promise<string> {
   try {
     const data = await response.json();
-    return data?.message || 'Произошла ошибка';
+
+    if (typeof data?.detail === 'string') {
+      return data.detail;
+    }
+
+    if (typeof data?.message === 'string') {
+      return data.message;
+    }
+
+    if (Array.isArray(data?.detail)) {
+      return data.detail
+        .map((item: ApiErrorDetail) => item.msg || item.message || 'Ошибка')
+        .join(', ');
+    }
+
+    return 'Произошла ошибка';
   } catch {
     return 'Произошла ошибка';
   }
 }
 
+function parseListResponse<T>(data: ListResponse<T> | T[]): T[] {
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  return data.items || [];
+}
+
 export async function getNations(search = ''): Promise<Nation[]> {
-  if (USE_MOCKS) {
+  if (USE_NATIONS_MOCKS) {
     const filtered = MOCK_NATIONS.filter((n) =>
       n.name.toLowerCase().includes(search.toLowerCase())
     );
+
     return Promise.resolve(filtered);
   }
 
@@ -108,23 +147,33 @@ export async function getNations(search = ''): Promise<Nation[]> {
     query.set('search', search.trim());
   }
 
-  const response = await safeFetch(`${API_URL}/api/v1/nations?${query.toString()}`);
+  const response = await safeFetch(`${API_URL}/api/v1/nations/?${query.toString()}`, {
+    headers: {
+      ...getAuthHeaders(),
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     throw new Error(await parseError(response));
   }
 
-  const data: ListResponse<Nation> = await response.json();
-  return data.items;
+  const data: ListResponse<Nation> | Nation[] = await response.json();
+  return parseListResponse<Nation>(data);
 }
 
 export async function getNationById(nationId: string): Promise<NationDetails> {
-  if (USE_MOCKS) {
-    const data = MOCK_NATION_DETAILS[nationId] || MOCK_NATION_DETAILS['tatar'];
+  if (USE_NATIONS_MOCKS) {
+    const data = MOCK_NATION_DETAILS[nationId] || MOCK_NATION_DETAILS.tatar;
     return Promise.resolve(data);
   }
 
-  const response = await safeFetch(`${API_URL}/api/v1/nations/${nationId}`);
+  const response = await safeFetch(`${API_URL}/api/v1/nations/${nationId}`, {
+    headers: {
+      ...getAuthHeaders(),
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     throw new Error(await parseError(response));
@@ -134,12 +183,18 @@ export async function getNationById(nationId: string): Promise<NationDetails> {
 }
 
 export async function getNationInfo(nationId: string): Promise<NationInfo> {
-  if (USE_MOCKS) {
-    const data = MOCK_NATION_DETAILS[nationId]?.info || MOCK_NATION_DETAILS['tatar'].info!;
+  if (USE_NATIONS_MOCKS) {
+    const data = MOCK_NATION_DETAILS[nationId]?.info || MOCK_NATION_DETAILS.tatar.info!;
+
     return Promise.resolve(data);
   }
 
-  const response = await safeFetch(`${API_URL}/api/v1/nations/${nationId}/info`);
+  const response = await safeFetch(`${API_URL}/api/v1/nations/${nationId}/info`, {
+    headers: {
+      ...getAuthHeaders(),
+    },
+    credentials: 'include',
+  });
 
   if (!response.ok) {
     throw new Error(await parseError(response));
@@ -149,75 +204,99 @@ export async function getNationInfo(nationId: string): Promise<NationInfo> {
 }
 
 export async function getSettlementZones(nationId: string): Promise<SettlementZone[]> {
-  if (USE_MOCKS) {
+  if (USE_NATIONS_MOCKS) {
     const data = MOCK_NATION_DETAILS[nationId]?.settlement_zones || [];
     return Promise.resolve(data);
   }
 
   const response = await safeFetch(
-    `${API_URL}/api/v1/nations/${nationId}/settlement-zones?page=1&page_size=100`
+    `${API_URL}/api/v1/nations/${nationId}/settlement-zones?page=1&page_size=100`,
+    {
+      headers: {
+        ...getAuthHeaders(),
+      },
+      credentials: 'include',
+    }
   );
 
   if (!response.ok) {
     throw new Error(await parseError(response));
   }
 
-  const data: ListResponse<SettlementZone> = await response.json();
-  return data.items;
+  const data: ListResponse<SettlementZone> | SettlementZone[] = await response.json();
+  return parseListResponse<SettlementZone>(data);
 }
 
 export async function getNationCostumes(nationId: string): Promise<Costume[]> {
-  if (USE_MOCKS) {
+  if (USE_NATIONS_MOCKS) {
     const data = MOCK_NATION_DETAILS[nationId]?.costumes || [];
     return Promise.resolve(data);
   }
 
   const response = await safeFetch(
-    `${API_URL}/api/v1/nations/${nationId}/costumes?page=1&page_size=20`
+    `${API_URL}/api/v1/nations/${nationId}/costumes?page=1&page_size=20`,
+    {
+      headers: {
+        ...getAuthHeaders(),
+      },
+      credentials: 'include',
+    }
   );
 
   if (!response.ok) {
     throw new Error(await parseError(response));
   }
 
-  const data: ListResponse<Costume> = await response.json();
-  return data.items;
+  const data: ListResponse<Costume> | Costume[] = await response.json();
+  return parseListResponse<Costume>(data);
 }
 
 export async function getNationGames(nationId: string): Promise<Game[]> {
-  if (USE_MOCKS) {
+  if (USE_NATIONS_MOCKS) {
     const data = MOCK_NATION_DETAILS[nationId]?.games || [];
     return Promise.resolve(data);
   }
 
   const response = await safeFetch(
-    `${API_URL}/api/v1/nations/${nationId}/games?page=1&page_size=20`
+    `${API_URL}/api/v1/nations/${nationId}/games?page=1&page_size=20`,
+    {
+      headers: {
+        ...getAuthHeaders(),
+      },
+      credentials: 'include',
+    }
   );
 
   if (!response.ok) {
     throw new Error(await parseError(response));
   }
 
-  const data: ListResponse<Game> = await response.json();
-  return data.items;
+  const data: ListResponse<Game> | Game[] = await response.json();
+  return parseListResponse<Game>(data);
 }
 
 export async function getNationComments(nationId: string): Promise<Comment[]> {
-  if (USE_MOCKS) {
+  if (USE_NATIONS_MOCKS) {
     const data = MOCK_COMMENTS[nationId] || [];
     return Promise.resolve(data);
   }
 
   const response = await safeFetch(
-    `${API_URL}/api/v1/nations/${nationId}/comments?page=1&page_size=20&sort_by=created_at&sort_order=desc`
+    `${API_URL}/api/v1/nations/${nationId}/comments?page=1&page_size=20&sort_by=created_at&sort_order=desc`,
+    {
+      headers: {
+        ...getAuthHeaders(),
+      },
+      credentials: 'include',
+    }
   );
 
   if (!response.ok) {
     throw new Error(await parseError(response));
   }
 
-  const data: ListResponse<Comment> = await response.json();
-  return data.items;
+  const data: ListResponse<Comment> | Comment[] = await response.json();
+  return parseListResponse<Comment>(data);
 }
 
 export async function createNationComment(
@@ -225,7 +304,7 @@ export async function createNationComment(
   text: string,
   authorName: string
 ): Promise<Comment> {
-  if (USE_MOCKS) {
+  if (USE_NATIONS_MOCKS) {
     const newComment: Comment = {
       id: Math.random().toString(36).substr(2, 9),
       nation_id: nationId,
@@ -244,10 +323,11 @@ export async function createNationComment(
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      ...getAuthHeaders(),
     },
+    credentials: 'include',
     body: JSON.stringify({
       text,
-      author_name: authorName,
     }),
   });
 

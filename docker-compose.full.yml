@@ -1,0 +1,78 @@
+name: atlas-full
+
+x-back-image: &back-image asilya18/backend-atlas:latest
+
+x-base: &base
+  image: *back-image
+  env_file:
+    - ./backend/.env
+  environment:
+    DB__HOST: db
+
+services:
+  db:
+    image: postgres:18
+    container_name: atlas-db
+    restart: always
+    env_file:
+      - ./backend/.env
+    environment:
+      POSTGRES_USER: ${DB__USER}
+      POSTGRES_PASSWORD: ${DB__PASSWORD}
+      POSTGRES_DB: ${DB__NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/18/docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  alembic:
+    <<: *base
+    container_name: atlas-alembic
+    depends_on:
+      db:
+        condition: service_healthy
+    command: ["/app/.venv/bin/alembic", "upgrade", "head"]
+    restart: on-failure
+
+  rbac:
+    <<: *base
+    container_name: atlas-rbac
+    depends_on:
+      alembic:
+        condition: service_completed_successfully
+    command: ["/app/.venv/bin/python", "init.py"]
+    restart: on-failure
+
+  api:
+    <<: *base
+    container_name: atlas-api
+    depends_on:
+      rbac:
+        condition: service_completed_successfully
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: always
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: atlas-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  pgdata:

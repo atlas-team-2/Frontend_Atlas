@@ -4,6 +4,11 @@ export type ClientOptions = {
   baseUrl: 'https://api.atlas.example.com' | 'http://localhost:8000' | (string & {});
 };
 
+export type SuccessResponse = {
+  success: boolean;
+  message: string;
+};
+
 export type ErrorResponse = {
   code: string;
   message: string;
@@ -392,14 +397,14 @@ export type SessionId = string;
 
 export type UserId = string;
 
-export type PostApiV1AuthRegisterData = {
+export type RegisterUserData = {
   body: RegisterRequest;
   path?: never;
   query?: never;
   url: '/api/v1/auth/register';
 };
 
-export type PostApiV1AuthRegisterErrors = {
+export type RegisterUserErrors = {
   /**
    * Unique constraint or business rule conflict
    */
@@ -414,18 +419,16 @@ export type PostApiV1AuthRegisterErrors = {
   500: ErrorResponse;
 };
 
-export type PostApiV1AuthRegisterError =
-  PostApiV1AuthRegisterErrors[keyof PostApiV1AuthRegisterErrors];
+export type RegisterUserError = RegisterUserErrors[keyof RegisterUserErrors];
 
-export type PostApiV1AuthRegisterResponses = {
+export type RegisterUserResponses = {
   /**
-   * User registered
+   * Пользователь успешно зарегистрирован
    */
-  201: User;
+  201: SuccessResponse;
 };
 
-export type PostApiV1AuthRegisterResponse =
-  PostApiV1AuthRegisterResponses[keyof PostApiV1AuthRegisterResponses];
+export type RegisterUserResponse = RegisterUserResponses[keyof RegisterUserResponses];
 
 export type PostApiV1AuthLoginData = {
   body: LoginRequest;

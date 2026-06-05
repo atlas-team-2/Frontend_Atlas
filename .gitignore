@@ -27,3 +27,4 @@ yarn-error.log*
 /codegen/openapi_atlas.yaml
 .env
 .env.*.local
+/backend/.env

@@ -114,9 +114,6 @@ import type {
   PostApiV1AuthLogoutData,
   PostApiV1AuthLogoutErrors,
   PostApiV1AuthLogoutResponses,
-  PostApiV1AuthRegisterData,
-  PostApiV1AuthRegisterErrors,
-  PostApiV1AuthRegisterResponses,
   PostApiV1CostumeGenerationsData,
   PostApiV1CostumeGenerationsErrors,
   PostApiV1CostumeGenerationsResponses,
@@ -180,6 +177,9 @@ import type {
   PutApiV1UsersByUserIdData,
   PutApiV1UsersByUserIdErrors,
   PutApiV1UsersByUserIdResponses,
+  RegisterUserData,
+  RegisterUserErrors,
+  RegisterUserResponses,
 } from './types.gen';
 
 export type Options<
@@ -201,16 +201,14 @@ export type Options<
 };
 
 /**
- * Register a new user
+ * Регистрация пользователя
+ *
+ * Создаёт нового пользователя в системе.
  */
-export const postApiV1AuthRegister = <ThrowOnError extends boolean = false>(
-  options: Options<PostApiV1AuthRegisterData, ThrowOnError>
+export const registerUser = <ThrowOnError extends boolean = false>(
+  options: Options<RegisterUserData, ThrowOnError>
 ) =>
-  (options.client ?? client).post<
-    PostApiV1AuthRegisterResponses,
-    PostApiV1AuthRegisterErrors,
-    ThrowOnError
-  >({
+  (options.client ?? client).post<RegisterUserResponses, RegisterUserErrors, ThrowOnError>({
     url: '/api/v1/auth/register',
     ...options,
     headers: {
