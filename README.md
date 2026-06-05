@@ -86,3 +86,7 @@ docker compose up -d --build
 Адрес приложения:
 
 http://176.123.163.201/
+
+reserve:
+
+http://109.69.62.132/
