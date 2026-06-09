@@ -9,14 +9,20 @@ export interface User {
   scopes?: string[];
 }
 
+export interface SuccessResponse {
+  success: boolean;
+  message: string;
+}
+
 export interface TokenPair {
   access_token: string;
+  refresh_token: string;
   token_type: string;
   expires_in: number;
   scope: string;
 }
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
+const API_URL = process.env.REACT_APP_API_URL || '';
 
 async function parseErrors(response: Response): Promise<string> {
   try {
@@ -31,7 +37,7 @@ export async function registerRequest(payload: {
   email: string;
   password: string;
   display_name?: string | null;
-}): Promise<User> {
+}): Promise<SuccessResponse> {
   const response = await safeFetch(`${API_URL}/api/v1/auth/register`, {
     method: 'POST',
     headers: {
