@@ -28,7 +28,7 @@ COPY --from=builder /app/.venv /app/.venv
 
 ENV PATH="/app/.venv/bin:$PATH"
 
-COPY ../../../Downloads /app
+COPY ./app
 
 RUN chown -R 1000:1000 /app
 
